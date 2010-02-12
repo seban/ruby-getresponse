@@ -1,0 +1,10 @@
+== GetResponse
+
+Wrapper for GetResponse API
+
+== Usage
+
+Test connection to GetResponse API. 
+
+  connection = GetResponse::Connection.new("my_secret_api")
+  connection.ping
