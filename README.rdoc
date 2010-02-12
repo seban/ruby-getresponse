@@ -11,4 +11,12 @@ Test connection to GetResponse API.
 
 Get info about account
 
-  gr_connection.get_account_info    
+  gr_connection.get_account_info
+
+Get yout active campaings
+
+  # get campaings with name "My campaing name"
+  gr_connection.get_campaings(:name.eq => "My campaing name")
+
+  # get campaings with other name than "My campaing name"
+  gr_connection.get_campaings(:name.neq => "My campaing name")

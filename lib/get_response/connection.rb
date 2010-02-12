@@ -34,6 +34,18 @@ module GetResponse
     end
 
 
+    # TODO: test, good implementation?
+    # get_campaings(:name.eq => "my name")
+    def get_campaings(conditions = {})
+      req_cond = conditions.inject({}) do |hash, cond|
+        hash[cond[1]] = cond[0].evaluate(cond[1])
+        hash
+      end
+
+      send_request("get_campaings", req_cond)
+    end
+
+
     protected
 
 
