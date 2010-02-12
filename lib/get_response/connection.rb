@@ -25,6 +25,15 @@ module GetResponse
     end
 
 
+    # Get basic info about your account
+    #
+    # returns:: GetResponse::Account
+    def get_account_info
+      resp = self.send_request("get_account_info")
+      GetResponse::Account.new(resp["result"])
+    end
+
+
     protected
 
 

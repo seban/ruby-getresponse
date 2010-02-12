@@ -4,7 +4,11 @@ Wrapper for GetResponse API
 
 == Usage
 
-Test connection to GetResponse API. 
+Test connection to GetResponse API.
 
-  connection = GetResponse::Connection.new("my_secret_api")
-  connection.ping
+  gr_connection = GetResponse::Connection.new("my_secret_api")
+  gr_connection.ping
+
+Get info about account
+
+  gr_connection.get_account_info    
