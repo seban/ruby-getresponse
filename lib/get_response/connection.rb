@@ -34,15 +34,26 @@ module GetResponse
     end
 
 
-    # TODO: test, good implementation?
+    # Get list of active campaigns in account. There are allowed operators for building conditions.
+    # More info about operators http://dev.getresponse.com/api-doc/#operators
+    #
+    #   gr_connection.get_campaings
+    #
+    # Get list of all active campaigns with name "my_campaign" and from_email is from domain "mybiz.xx"
+    #
+    #   gr_connection.get_campaings(:name.is_eq => "my_campaign", :from_email.contain => "%mybiz.xx")
+    #
     # get_campaings(:name.eq => "my name")
-    def get_campaings(conditions = {})
+    def get_campaigns(conditions = {})
       req_cond = conditions.inject({}) do |hash, cond|
-        hash[cond[1]] = cond[0].evaluate(cond[1])
+        hash.merge!(cond[0].evaluate(cond[1]))
         hash
       end
 
-      send_request("get_campaings", req_cond)
+      response = send_request("get_campaigns", req_cond)["result"]
+      response.inject([]) do |campaings, resp|
+        campaings << Campaign.new(resp[1].merge(:id => resp[0]))
+      end
     end
 
 
@@ -57,9 +68,8 @@ module GetResponse
     def send_request(method, params = {})
       request_params = {
         :method => method,
-        :params => [@api_key]
+        :params => [@api_key, params]
       }.to_json
-
 
       uri = URI.parse(API_URI)
       resp = Net::HTTP.start(uri.host, uri.port) do |conn|

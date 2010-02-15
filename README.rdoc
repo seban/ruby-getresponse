@@ -13,10 +13,13 @@ Get info about account
 
   gr_connection.get_account_info
 
-Get yout active campaings
+Get yout active campaings. More info about operators http://dev.getresponse.com/api-doc/#operators
 
   # get campaings with name "My campaing name"
-  gr_connection.get_campaings(:name.eq => "My campaing name")
+  gr_connection.get_campaings(:name.is_eq => "My campaing name")
 
   # get campaings with other name than "My campaing name"
-  gr_connection.get_campaings(:name.neq => "My campaing name")
+  gr_connection.get_campaings(:name.is_not_eq => "My campaing name")
+
+  # get campaings with name like "signup" and with from_email with domain "mybiz.xx"
+  gr_connection.get_campaigns(:name.contain => "%signup%", :from_email.contain => "%mybiz.xx"

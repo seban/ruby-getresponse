@@ -30,6 +30,15 @@ class ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_get_campaigns_without_conditions
+    mock(@mocked_response).body { get_campaigns_resp }
+
+    response = @gr_connection.get_campaigns
+    assert_kind_of Array, response
+    response.each { |campaign| assert_kind_of GetResponse::Campaign, campaign }
+  end
+
+
   protected
 
 
@@ -42,6 +51,28 @@ class ConnectionTest < Test::Unit::TestCase
         "created_on" => "2010-02-12"
       },
       "errors" => nil
+    }.to_json
+  end
+
+
+  def get_campaigns_resp
+    {
+      "result" => {
+        "1000" => {
+          "name"              => "my_campaign_1",
+          "from_name"         => "My From Name",
+          "from_email"        => "me@emailaddress.com",
+          "reply_to_email"    => "replies@emailaddress.com",
+          "created_on"        => "2010-01-01 00:00:00"
+        },
+        "1001" => {
+          "name"              => "my_campaign_2",
+          "from_name"         => "My From Name",
+          "from_email"        => "me@emailaddress.com",
+          "reply_to_email"    => "replies@emailaddress.com",
+          "created_on"        => "2010-01-01 00:00:00"
+        }
+      }
     }.to_json
   end
 

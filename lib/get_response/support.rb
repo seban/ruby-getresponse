@@ -1,7 +1,7 @@
 class SymbolOperator
   attr_reader :field, :operator
 
-  def initialize(field, operator, options={})
+  def initialize(field, operator)
     @field, @operator = field, operator
   end unless method_defined?(:initialize)
 
@@ -12,16 +12,13 @@ class SymbolOperator
 
 
   def gr_operator
-    operators = {
-      "eq" => "EQUALS"
-    }
-    operators[@operator]
+    GetResponse::OPERATORS[@operator]
   end
 end
 
 
 class Symbol
-  %w(eq neq).each do |operator|
+  GetResponse::OPERATORS.keys.each do |operator|
     define_method(operator) do
       SymbolOperator.new(self, operator)
     end unless method_defined?(operator)
