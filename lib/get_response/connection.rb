@@ -57,6 +57,17 @@ module GetResponse
     end
 
 
+    # Get single campaign using <tt>campaign_id</tt>.
+    #
+    # campaign_id:: Integer || String
+    #
+    # returns:: GetResponse::Campaign || nil
+    def get_campaign(campaign_id)
+      result = self.get_campaigns(:id.is_eq => campaign_id)
+      result.first
+    end
+
+
     protected
 
 

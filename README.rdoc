@@ -23,3 +23,11 @@ Get yout active campaings. More info about operators http://dev.getresponse.com/
 
   # get campaings with name like "signup" and with from_email with domain "mybiz.xx"
   gr_connection.get_campaigns(:name.contain => "%signup%", :from_email.contain => "%mybiz.xx"
+
+Get single campaign
+
+  gr_connection.get_campaign(123456)
+  => <#GetResponse::Campaign ... >
+
+  gr_connection.get_campaign(bad_id)
+  => nil

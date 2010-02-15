@@ -39,6 +39,30 @@ class ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_get_campaigns_with_empty_results
+    mock(@mocked_response).body { { "result" => [] }.to_json }
+
+    response = @gr_connection.get_campaigns(:name.is_eq => "my_fake_name")
+    assert_equal [], response
+  end
+
+
+  def test_get_campaign
+    mock(@mocked_response).body { get_campaigns_resp }
+
+    response = @gr_connection.get_campaign(1000)
+    assert_kind_of GetResponse::Campaign, response
+  end
+
+
+  def test_get_campaign_with_bad_id
+    mock(@mocked_response).body { { "result" => [] }.to_json }
+
+    response = @gr_connection.get_campaign(98765432)
+    assert_nil response
+  end
+
+
   protected
 
 
