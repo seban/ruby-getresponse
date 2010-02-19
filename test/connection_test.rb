@@ -16,6 +16,7 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_ping
     mock(@mocked_response).body { "{\"error\":null,\"result\":{\"ping\":\"pong\"}}" }
+    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.ping
     assert_equal true, response
@@ -24,6 +25,7 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_account_info
     mock(@mocked_response).body { get_account_info_resp }
+    mock(@mocked_response).code { 200 }
     result = @gr_connection.get_account_info
 
     assert_kind_of GetResponse::Account, result
@@ -32,6 +34,7 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaigns_without_conditions
     mock(@mocked_response).body { get_campaigns_resp }
+    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaigns
     assert_kind_of Array, response
@@ -41,6 +44,7 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaigns_with_empty_results
     mock(@mocked_response).body { { "result" => [] }.to_json }
+    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaigns(:name.is_eq => "my_fake_name")
     assert_equal [], response
@@ -49,6 +53,7 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaign
     mock(@mocked_response).body { get_campaigns_resp }
+    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaign(1000)
     assert_kind_of GetResponse::Campaign, response
@@ -57,6 +62,7 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaign_with_bad_id
     mock(@mocked_response).body { { "result" => [] }.to_json }
+    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaign(98765432)
     assert_nil response
