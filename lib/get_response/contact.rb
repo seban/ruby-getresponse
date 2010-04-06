@@ -2,7 +2,8 @@ module GetResponse
 
   # GetResponse contact
   class Contact
-    attr_reader :campaign, :name, :email, :cycle_day, :ip, :customs, :id
+    attr_accessor :campaign, :name, :email, :cycle_day, :ip, :customs
+    attr_reader :id
 
 
     def initialize(params)
@@ -90,6 +91,17 @@ module GetResponse
       else
         raise GetResponse::GetResponseError.new(resp["error"])
       end
+    end
+
+
+    # Update contact with passed attributes set. When object can't be saved than <tt>GetResponseError</tt>
+    # is raised, otherwise returns <tt>true</tt>.
+    #
+    # net_attrs:: Hash
+    def update(new_attrs)
+      new_attrs.each_pair { |key, value| self.send(key + "=", value) }
+
+      self.save
     end
 
 

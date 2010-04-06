@@ -125,6 +125,26 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_update_good_data
+    mock(@mocked_response).body { add_contact_queued_response }
+    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
+      "campaign" => "myCampaignId", "id" => "45bgT")
+
+    resp = contact.update("name" => "My new name")
+    assert_equal true, resp
+  end
+
+
+  def test_update_exception
+    mock(@mocked_response).body { add_contact_invalid_email_syntax }
+    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
+      "campaign" => "myCampaignId", "id" => "45bgT")
+
+    exception = assert_raise(GetResponse::GetResponseError) { contact.update("email" => "sebastian//host.xyz") }
+    assert_equal "Invalid email syntax", exception.message
+  end
+
+
   protected
 
 
