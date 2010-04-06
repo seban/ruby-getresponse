@@ -2,7 +2,7 @@ module GetResponse
 
   # GetResponse contact
   class Contact
-    attr_reader :campaign, :name, :email, :cycle_day, :ip, :customs
+    attr_reader :campaign, :name, :email, :cycle_day, :ip, :customs, :id
 
 
     def initialize(params)
@@ -12,6 +12,7 @@ module GetResponse
       @cycle_day = params["cycle_day"]
       @ip = params["ip"]
       @customs = parse_customs(params["customs"])
+      @id = params["id"]
     end
 
 
@@ -25,6 +26,18 @@ module GetResponse
     def self.create(params)
       contact = Contact.new(params)
       contact.save
+    end
+
+
+    # Find all contacts associated with GetResponse account
+    #
+    # returns:: [Contact]
+    def self.find_all
+      response = GetResponse::Connection.instance.send_request("get_contacts", {})
+
+      response["result"].inject([]) do |contacts, resp|
+        contacts << Contact.new(resp[1].merge("id" => resp[0]))
+      end
     end
 
 
@@ -44,7 +57,7 @@ module GetResponse
     end
 
 
-    # Returns setted attributes as Hash
+    # Returns setted attributes as Hash.
     #
     # returns:: Hash
     def attributes
@@ -59,6 +72,24 @@ module GetResponse
       attrs["customs"] = @customs if @customs
 
       attrs
+    end
+
+
+    # Delete contact. If deleting contact was successfull method returns <tt>true</tt>. If contact
+    # object hasn't <tt>id</tt> attribute <tt>GetResponseError</tt> exception is raised. Exception
+    # is raised when try to delete already deleted contact.
+    #
+    # returns:: Boolean
+    def destroy
+      raise GetResponse::GetResponseError.new("Can't delete contact without id") unless @id
+
+      resp = GetResponse::Connection.instance.send_request("delete_contact", { "contact" => @id })
+
+      if resp["error"].nil?
+        true
+      else
+        raise GetResponse::GetResponseError.new(resp["error"])
+      end
     end
 
 
