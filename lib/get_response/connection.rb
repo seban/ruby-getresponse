@@ -11,8 +11,16 @@ module GetResponse
     attr_reader :api_key
 
 
+    private_class_method :new
+
+
     def initialize(api_key)
       @api_key = api_key
+    end
+
+
+    def self.instance(api_key = "")
+      @@instance ||= new(api_key)
     end
 
 
@@ -52,7 +60,7 @@ module GetResponse
 
       response = send_request("get_campaigns", req_cond)["result"]
       response.inject([]) do |campaings, resp|
-        campaings << Campaign.new(resp[1].merge(:id => resp[0]))
+        campaings << Campaign.new(resp[1].merge("id" => resp[0]))
       end
     end
 
@@ -66,9 +74,6 @@ module GetResponse
       result = self.get_campaigns(:id.is_eq => campaign_id)
       result.first
     end
-
-
-    protected
 
 
     # Send request to JSON-RPC service.

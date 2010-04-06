@@ -8,7 +8,7 @@ class ConnectionTest < Test::Unit::TestCase
   include RR::Adapters::TestUnit
 
   def setup
-    @gr_connection = GetResponse::Connection.new("my_secret_api_key")
+    @gr_connection = GetResponse::Connection.instance("my_secret_api_key")
     @mocked_response = mock
     mock(Net::HTTP).start("api2.getresponse.com", 80) { @mocked_response }
   end
