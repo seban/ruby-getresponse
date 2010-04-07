@@ -9,6 +9,7 @@ class ContactTest < Test::Unit::TestCase
 
   include RR::Adapters::TestUnit
 
+
   def setup
     @gr_connection = GetResponse::Connection.instance("my_secret_api_key")
     @mocked_response = mock
@@ -54,8 +55,7 @@ class ContactTest < Test::Unit::TestCase
   def test_attributes_without_customs
     satisfy_mocks
 
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId")
+    contact = new_contact
     attrs = contact.attributes
 
     assert_kind_of Hash, attrs
@@ -69,8 +69,7 @@ class ContactTest < Test::Unit::TestCase
   def test_attributes_without_customs_with_customs
     satisfy_mocks
 
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "customs" => { "one" => "two" })
+    contact = new_contact("customs" => { "one" => "two" })
     attrs = contact.attributes
 
     assert_kind_of Hash, attrs
@@ -97,8 +96,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_destroy_contact
     mock(@mocked_response).body { destroy_contact_mock }
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "id" => "45bgT")
+    contact = new_contact("id" => "45bgT")
 
     resp = contact.destroy
     assert_equal true, resp
@@ -107,8 +105,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_destroy_contact_without_id
     satisfy_mocks
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId")
+    contact = new_contact
 
     exception = assert_raise(GetResponse::GetResponseError) { contact.destroy }
     assert_equal "Can't delete contact without id", exception.message
@@ -117,8 +114,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_destroy_missing_contact
     mock(@mocked_response).body { destroy_missing_contact_mock }
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "id" => "45bgT")
+    contact =  new_contact("id" => "45bgT")
 
     exception = assert_raise(GetResponse::GetResponseError) { contact.destroy }
     assert_equal "Missing contact", exception.message
@@ -127,8 +123,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_update_good_data
     mock(@mocked_response).body { add_contact_queued_response }
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "id" => "45bgT")
+    contact = new_contact("id" => "45bgT")
 
     resp = contact.update("name" => "My new name")
     assert_equal true, resp
@@ -137,8 +132,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_update_exception
     mock(@mocked_response).body { add_contact_invalid_email_syntax }
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "id" => "45bgT")
+    contact = new_contact("id" => "45bgT")
 
     exception = assert_raise(GetResponse::GetResponseError) { contact.update("email" => "sebastian//host.xyz") }
     assert_equal "Invalid email syntax", exception.message
@@ -147,8 +141,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_move_contact_success
     mock(@mocked_response).body { move_contact_success }
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "id" => "45bgT")
+    contact = new_contact("id" => "45bgT")
     resp = contact.move("myNewCampaignId")
 
     assert_equal true, resp
@@ -157,8 +150,7 @@ class ContactTest < Test::Unit::TestCase
 
   def test_move_contact_fail
     mock(@mocked_response).body { move_contact_fail }
-    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "id" => "45bgT")
+    contact = new_contact("id" => "45bgT")
 
     exception = assert_raise(GetResponse::GetResponseError) { contact.move("blah") }
     assert_equal "Missing campaign", exception.message
@@ -168,15 +160,24 @@ class ContactTest < Test::Unit::TestCase
   protected
 
 
+  def new_contact(options = {})
+    GetResponse::Contact.new({
+      "email" => "sebastian@somehost.pl",
+      "name" => "Sebastian",
+      "campaign" => "myCampaignId"
+    }.merge(options))
+  end
+
+
   # Odpowiedż na "add_contact": zakolejkowany
   def add_contact_queued_response
-     { "result" => { "queued" => 1 }, "error" => nil }.to_json
+    { "result" => { "queued" => 1 }, "error" => nil }.to_json
   end
 
 
   # Odpowiedż na "add_contact": zakolejkowany
   def add_contact_duplicated_response
-     { "result" => { "duplicated" => 1 }, "error" => nil }.to_json
+    { "result" => { "duplicated" => 1 }, "error" => nil }.to_json
   end
 
 
@@ -203,7 +204,7 @@ class ContactTest < Test::Unit::TestCase
         "origin"=>"api",
         "ip"=>nil,
         "email"=>"sebastian2@somehost.com" }
-      },
+    },
       "error" => nil
     }.to_json
   end

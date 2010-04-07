@@ -50,11 +50,7 @@ module GetResponse
       connection = GetResponse::Connection.instance
 
       result = connection.send_request(:add_contact, self.attributes)
-      if result["error"].nil?
-        true
-      else
-        raise GetResponse::GetResponseError.new(result["error"])
-      end
+      result["error"].nil?
     end
 
 
@@ -85,12 +81,7 @@ module GetResponse
       raise GetResponse::GetResponseError.new("Can't delete contact without id") unless @id
 
       resp = GetResponse::Connection.instance.send_request("delete_contact", { "contact" => @id })
-
-      if resp["error"].nil?
-        true
-      else
-        raise GetResponse::GetResponseError.new(resp["error"])
-      end
+      resp["result"]["deleted"].to_i == 1
     end
 
 
@@ -114,11 +105,7 @@ module GetResponse
     def move(new_campaign_id)
       param = { "contact" => @id, "campaign" => new_campaign_id }
       result = GetResponse::Connection.instance.send_request("move_contact", param)
-      if result["error"].nil?
-        true
-      else
-        raise GetResponse::GetResponseError.new(result["error"])
-      end
+      result["result"]["updated"].to_i == 1
     end
 
 

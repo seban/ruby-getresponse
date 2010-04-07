@@ -76,7 +76,8 @@ module GetResponse
     end
 
 
-    # Send request to JSON-RPC service.
+    # Send request to JSON-RPC service. If response contains "error" <tt>GetResponseError</tt>
+    # exception will be raised.
     #
     # method::  String
     #
@@ -91,7 +92,11 @@ module GetResponse
       resp = Net::HTTP.start(uri.host, uri.port) do |conn|
         conn.post("/", request_params)
       end
-      JSON.parse(resp.body)
+      response = JSON.parse(resp.body)
+      if response["error"]
+        raise GetResponse::GetResponseError.new(response["error"])
+      end
+      response
     end
   end
 
