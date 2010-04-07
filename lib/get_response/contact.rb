@@ -105,6 +105,23 @@ module GetResponse
     end
 
 
+    # Move contact from one campaign (current) to another. If move contact fails (for example: no
+    # campaign with passed id) <tt>GetResponseError</tt> exception is raised, otherwise method
+    # returns <tt>true</tt>.
+    #
+    # new_campaign_id:: String - identifier of new camapign
+    # returns:: Boolean
+    def move(new_campaign_id)
+      param = { "contact" => @id, "campaign" => new_campaign_id }
+      result = GetResponse::Connection.instance.send_request("move_contact", param)
+      if result["error"].nil?
+        true
+      else
+        raise GetResponse::GetResponseError.new(result["error"])
+      end
+    end
+
+
     protected
 
 

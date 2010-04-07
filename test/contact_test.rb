@@ -145,6 +145,26 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_move_contact_success
+    mock(@mocked_response).body { move_contact_success }
+    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
+      "campaign" => "myCampaignId", "id" => "45bgT")
+    resp = contact.move("myNewCampaignId")
+
+    assert_equal true, resp
+  end
+
+
+  def test_move_contact_fail
+    mock(@mocked_response).body { move_contact_fail }
+    contact = GetResponse::Contact.new("email" => "sebastian@somehost.pl", "name" => "Sebastian",
+      "campaign" => "myCampaignId", "id" => "45bgT")
+
+    exception = assert_raise(GetResponse::GetResponseError) { contact.move("blah") }
+    assert_equal "Missing campaign", exception.message
+  end
+
+
   protected
 
 
@@ -196,6 +216,16 @@ class ContactTest < Test::Unit::TestCase
 
   def destroy_missing_contact_mock
     { "result" => nil, "error" => "Missing contact" }.to_json
+  end
+
+
+  def move_contact_success
+    { "result" => { "updated" => 1 }, "error" => nil }.to_json
+  end
+
+
+  def move_contact_fail
+    { "result" => nil, "error" => "Missing campaign" }.to_json
   end
 
 
