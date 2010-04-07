@@ -6,7 +6,7 @@ Wrapper for GetResponse API
 
 Test connection to GetResponse API.
 
-  gr_connection = GetResponse::Connection.new("my_secret_api")
+  gr_connection = GetResponse::Connection.instance("my_secret_api_key")
   gr_connection.ping
 
 Get info about account
@@ -31,3 +31,38 @@ Get single campaign
 
   gr_connection.get_campaign(bad_id)
   => nil
+
+You can operate on your contacts quite the same way as on ActiveRecord objects. Before any operation
+on contacts you must connect to API.
+
+Get all contacts:
+
+  # connect to API
+  GetResponse::Connection.instance("my_secret_api_key")
+  GetResponse::Contact.find_all
+
+Create new contact:
+
+  # with connection
+  GetResponse::Contact.create("name" => "John Doe", "email" => "john.d@somewhere.com",
+    "campaign" => "campaignId", "customs" => { "source" => "mainpage" })
+
+Update your contact:
+
+  # with connection
+  # contact - existing contact
+  contact.update("name" => "John Thenewname")
+
+Delete contact:
+
+  # with connection
+  # contact - existing contact
+  contact.destroy
+
+Move contact between campaigns:
+
+  # with connection
+  # contact - existing contact
+  # zXy - existing campaign
+  contact.move("zXy")
+
