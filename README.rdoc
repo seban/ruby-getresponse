@@ -72,3 +72,10 @@ Get geoip location
   # with connection
   # contact - existing contact
   contact.geoip
+
+Set contact cycle
+
+  # with connection
+  # contact - existing contact
+  contact.set_cycle(5)
+

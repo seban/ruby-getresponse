@@ -174,6 +174,24 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_set_cycle_success
+    mock(@mocked_response).body { set_cycle_success_mock }
+    contact = new_contact("id" => "45bgT")
+    resp = contact.set_cycle("5")
+
+    assert_equal true, resp
+  end
+
+
+  def test_set_cycle_missing_contact
+    mock(@mocked_response).body { set_cycle_fail_mock }
+    contact = new_contact("id" => "45bgT")
+
+    exception = assert_raise(GetResponse::GetResponseError) { contact.set_cycle("6") }
+    assert_equal "Missing contact", exception.message
+  end
+
+
   protected
 
 
@@ -261,6 +279,16 @@ class ContactTest < Test::Unit::TestCase
       },
       "error" => nil
     }.to_json
+  end
+
+
+  def set_cycle_success_mock
+    { "result" => { "updated" => 1 }, "error" => nil }.to_json
+  end
+
+
+  def set_cycle_fail_mock
+    { "result" => nil, "error" => "Missing contact" }.to_json
   end
 
 

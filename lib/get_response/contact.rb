@@ -118,6 +118,17 @@ module GetResponse
     end
 
 
+    # Place a contact on a desired day of the follow-up cycle or deactivate a contact. Method
+    # raises a <tt>GetResponseError</tt> exception when fails otherwise returns true.
+    #
+    # value:: String || Fixnum
+    # returns:: true
+    def set_cycle(value)
+      param = { "contact" => @id, "cycle_day" => value }
+      GetResponse::Connection.instance.send_request("set_contact_cycle", param)["result"]["updated"].to_i == 1
+    end
+
+
     protected
 
 
