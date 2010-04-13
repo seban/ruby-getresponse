@@ -109,6 +109,15 @@ module GetResponse
     end
 
 
+    # Get contact geo location based on IP address from which the subscription was processed.
+    #
+    # returns:: Hash
+    def geoip
+      param = { "contact" => @id }
+      GetResponse::Connection.instance.send_request("get_contact_geoip", param)["result"]
+    end
+
+
     protected
 
 

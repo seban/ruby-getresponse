@@ -157,6 +157,23 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_geoip
+    mock(@mocked_response).body { geo_ip }
+    contact = new_contact("id" => "45bgT")
+    localization = contact.geoip
+
+    assert_kind_of Hash, localization
+    assert localization.keys.include? "latitude"
+    assert localization.keys.include? "longitude"
+    assert localization.keys.include? "country"
+    assert localization.keys.include? "region"
+    assert localization.keys.include? "city"
+    assert localization.keys.include? "country_code"
+    assert localization.keys.include? "postal_code"
+    assert localization.keys.include? "dma_code"
+  end
+
+
   protected
 
 
@@ -227,6 +244,23 @@ class ContactTest < Test::Unit::TestCase
 
   def move_contact_fail
     { "result" => nil, "error" => "Missing campaign" }.to_json
+  end
+
+
+  def geo_ip
+    { "result" => {
+      "latitude" => "54.35",
+      "longitude"    => "18.6667",
+      "country"      => "Poland",
+      "region"       => "82",
+      "city"         => "Gdansk",
+      "country_code" => "PL",
+      "postal_code"  => nil,
+      "dma_code"     => 0
+
+      },
+      "error" => nil
+    }.to_json
   end
 
 

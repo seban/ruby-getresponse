@@ -66,3 +66,9 @@ Move contact between campaigns:
   # zXy - existing campaign
   contact.move("zXy")
 
+
+Get geoip location
+
+  # with connection
+  # contact - existing contact
+  contact.geoip
