@@ -1,3 +1,8 @@
+require "rubygems"
+require "bundler"
+Bundler.setup
+Bundler.require(:default)
+
 require File.dirname(__FILE__) + "/get_response/get_response"
 require File.dirname(__FILE__) + "/get_response/support"
 require File.dirname(__FILE__) + "/get_response/account"

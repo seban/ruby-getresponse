@@ -1,6 +1,4 @@
-require 'rubygems'
 require 'net/http'
-require 'json'
 
 module GetResponse
 

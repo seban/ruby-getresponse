@@ -1,9 +1,4 @@
-require "rubygems"
-require "test/unit"
-require "rr"
-require "json"
-
-require File.dirname(__FILE__) + "/../lib/get_response.rb"
+require File.join(File.dirname(__FILE__), '../test_helper')
 
 class ContactTest < Test::Unit::TestCase
 
