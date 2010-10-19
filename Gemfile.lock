@@ -11,4 +11,4 @@ PLATFORMS
 DEPENDENCIES
   json (~> 1.4)
   json_pure (~> 1.4)
-  rr (>= 0.10.11)
+  rr (~> 1.0)
