@@ -95,7 +95,8 @@ module GetResponse
     #
     # returns:: Message
     def get_message(message_id)
-      response = self.send_request("get_message", { "message" => message_id })
+      response = self.send_request("get_message", { "message" => message_id })["result"]
+      return nil if response.empty?
       Message.new(response[message_id].merge("id" => message_id))
     end
 
