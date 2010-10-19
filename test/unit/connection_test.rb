@@ -1,22 +1,19 @@
-require "rubygems"
-require "test/unit"
-require "rr"
-require "json"
-require File.dirname(__FILE__) + "/../lib/get_response.rb"
+require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper'))
 
 class ConnectionTest < Test::Unit::TestCase
+
   include RR::Adapters::TestUnit
 
   def setup
-    @gr_connection = GetResponse::Connection.new("my_secret_api_key")
+    @gr_connection = GetResponse::Connection.instance("my_secret_api_key")
     @mocked_response = mock
+    mock(@mocked_response).code.any_times { 200 }
     mock(Net::HTTP).start("api2.getresponse.com", 80) { @mocked_response }
   end
 
 
   def test_ping
     mock(@mocked_response).body { "{\"error\":null,\"result\":{\"ping\":\"pong\"}}" }
-    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.ping
     assert_equal true, response
@@ -25,7 +22,6 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_account_info
     mock(@mocked_response).body { get_account_info_resp }
-    mock(@mocked_response).code { 200 }
     result = @gr_connection.get_account_info
 
     assert_kind_of GetResponse::Account, result
@@ -34,7 +30,6 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaigns_without_conditions
     mock(@mocked_response).body { get_campaigns_resp }
-    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaigns
     assert_kind_of Array, response
@@ -44,7 +39,6 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaigns_with_empty_results
     mock(@mocked_response).body { { "result" => [] }.to_json }
-    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaigns(:name.is_eq => "my_fake_name")
     assert_equal [], response
@@ -53,7 +47,6 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaign
     mock(@mocked_response).body { get_campaigns_resp }
-    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaign(1000)
     assert_kind_of GetResponse::Campaign, response
@@ -62,7 +55,6 @@ class ConnectionTest < Test::Unit::TestCase
 
   def test_get_campaign_with_bad_id
     mock(@mocked_response).body { { "result" => [] }.to_json }
-    mock(@mocked_response).code { 200 }
 
     response = @gr_connection.get_campaign(98765432)
     assert_nil response
@@ -70,7 +62,6 @@ class ConnectionTest < Test::Unit::TestCase
 
 
   def test_get_messages
-    mock(@mocked_response).code { 200 }
     mock(@mocked_response).body { get_messages_resp }
 
     response = @gr_connection.get_messages
@@ -81,7 +72,6 @@ class ConnectionTest < Test::Unit::TestCase
 
 
   def test_get_messages_with_conditions
-    mock(@mocked_response).code { 200 }
     mock(@mocked_response).body { get_messages_resp }
 
     response = @gr_connection.get_messages(:type => 'follow-up')
@@ -91,7 +81,6 @@ class ConnectionTest < Test::Unit::TestCase
 
 
   def test_get_messages_empty_results
-    mock(@mocked_response).code { 200 }
     mock(@mocked_response).body { { "result" => {} }.to_json }
 
     response = @gr_connection.get_messages(:type => 'follow-up')
@@ -101,7 +90,6 @@ class ConnectionTest < Test::Unit::TestCase
 
 
   def test_get_messages_with_conditions_empty_results
-    mock(@mocked_response).code { 200 }
     mock(@mocked_response).body { { "result" => {} }.to_json }
 
     response = @gr_connection.get_messages(:type => 'follow-up')
@@ -111,7 +99,6 @@ class ConnectionTest < Test::Unit::TestCase
 
 
   def test_get_message
-    mock(@mocked_response).code { 200 }
     mock(@mocked_response).body { get_message_resp }
     
     message = @gr_connection.get_message("123")
@@ -121,7 +108,6 @@ class ConnectionTest < Test::Unit::TestCase
 
 
   def test_get_message_with_bad_identifier
-    mock(@mocked_response).code { 200 }
     mock(@mocked_response).body { { "result" => {} }.to_json }
 
     response = @gr_connection.get_message("bad_param")

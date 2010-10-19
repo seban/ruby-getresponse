@@ -1,6 +1,4 @@
-require 'rubygems'
 require 'net/http'
-require 'json'
 
 module GetResponse
 
@@ -11,8 +9,16 @@ module GetResponse
     attr_reader :api_key
 
 
+    private_class_method :new
+
+
     def initialize(api_key)
       @api_key = api_key
+    end
+
+
+    def self.instance(api_key = "")
+      @@instance ||= new(api_key)
     end
 
 
@@ -54,7 +60,6 @@ module GetResponse
     end
 
 
-    # TODO: untested!
     # Get single campaign using <tt>campaign_id</tt>.
     #
     # campaign_id:: Integer || String
@@ -101,6 +106,29 @@ module GetResponse
     end
 
 
+    # Send request to JSON-RPC service.
+    #
+    # method::  String
+    #
+    # params::  Hash
+    def send_request(method, params = {})
+      request_params = {
+        :method => method,
+        :params => [@api_key, params]
+      }.to_json
+
+      uri = URI.parse(API_URI)
+      resp = Net::HTTP.start(uri.host, uri.port) do |conn|
+        conn.post("/", request_params)
+      end
+      response = JSON.parse(resp.body)
+      if response["error"]
+        raise GetResponse::GetResponseError.new(response["error"])
+      end
+      response
+    end
+
+
     protected
 
 
@@ -119,28 +147,6 @@ module GetResponse
       end
     end
 
-
-    # Send request to JSON-RPC service.
-    #
-    # method::  String
-    #
-    # params::  Hash
-    def send_request(method, params = {})
-      request_params = {
-        :method => method,
-        :params => [@api_key, params]
-      }.to_json
-
-      uri = URI.parse(API_URI)
-      resp = Net::HTTP.start(uri.host, uri.port) do |conn|
-        conn.post("/", request_params)
-      end
-      if resp.code == 200
-        JSON.parse(resp.body)
-      else
-        raise GetResponseError.new(resp.message)
-      end
-    end
   end
 
 end

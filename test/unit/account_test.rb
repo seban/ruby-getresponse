@@ -1,5 +1,4 @@
-require "test/unit"
-require File.dirname(__FILE__) + "/../lib/get_response.rb"
+require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper'))
 
 class AccountTest < Test::Unit::TestCase
 

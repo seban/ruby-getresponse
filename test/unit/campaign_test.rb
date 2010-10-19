@@ -1,7 +1,7 @@
-require "test/unit"
-require File.dirname(__FILE__) + "/../lib/get_response.rb"
+require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper'))
 
 class CampaignTest < Test::Unit::TestCase
+
   def test_initialize
     campaign = GetResponse::Campaign.new("id" => 1005, "name" => "test_campaign",
       "from_name" => "Joe Doe", "from_email" => "test@test.xx", "reply_to_email" => "bounce@test.xx",
@@ -14,5 +14,5 @@ class CampaignTest < Test::Unit::TestCase
     assert_equal "bounce@test.xx", campaign.reply_to_email
     assert_equal "2010-02-15 15:40", campaign.created_on
   end
-  
+
 end

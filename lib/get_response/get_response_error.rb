@@ -1,3 +1,5 @@
 # Errors for GetResponse. For example: bad requests, ...
-class GetResponseError < StandardError
+module GetResponse
+  class GetResponseError < StandardError
+  end
 end
