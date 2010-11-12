@@ -1,7 +1,5 @@
 require "rubygems"
-require "bundler"
-Bundler.setup
-Bundler.require(:default)
+require 'json'
 
 module GetResponse
 
@@ -44,8 +42,9 @@ class Symbol
   end
 end
 
-
-
-Dir.glob(File.join('**/*.rb')).each do |fname|
-  GetResponse.autoload File.basename(fname, '.rb').gsub(/(?:^|_)(.)/) { $1.upcase }, fname
-end
+GetResponse.autoload :GetResponseError, "get_response/get_response_error"
+GetResponse.autoload :Account, "get_response/account"
+GetResponse.autoload :Campaign, "get_response/campaign"
+GetResponse.autoload :Connection, "get_response/connection"
+GetResponse.autoload :Contact, "get_response/contact"
+GetResponse.autoload :Message, "get_response/message"
