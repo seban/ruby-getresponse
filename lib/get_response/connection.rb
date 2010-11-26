@@ -8,16 +8,14 @@ module GetResponse
 
     attr_reader :api_key
 
-
-    private_class_method :new
-
-
     def initialize(api_key)
       @api_key = api_key
     end
 
 
+    # *DEPRECATED* method, please use <tt>new</tt> instead. This method will be removed in vesion 2.0
     def self.instance(api_key = "")
+      warn "[DEPRECATION] 'GetResponse::Connection.instance' method is deprecated. Please use 'new' instead."
       @@instance ||= new(api_key)
     end
 

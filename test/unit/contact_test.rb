@@ -6,7 +6,7 @@ class ContactTest < Test::Unit::TestCase
 
 
   def setup
-    @gr_connection = GetResponse::Connection.instance("my_secret_api_key")
+    @gr_connection = GetResponse::Connection.new("my_secret_api_key")
     @mocked_response = mock
     mock(@mocked_response).code.any_times { 200 }
     mock(Net::HTTP).start("api2.getresponse.com", 80) { @mocked_response }
