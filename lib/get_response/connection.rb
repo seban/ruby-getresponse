@@ -29,10 +29,10 @@ module GetResponse
     end
 
 
-    # Get basic info about your account
+    # Get basic info about your account.
     #
     # returns:: GetResponse::Account
-    def get_account_info
+    def account
       resp = self.send_request("get_account_info")
       GetResponse::Account.new(resp["result"])
     end

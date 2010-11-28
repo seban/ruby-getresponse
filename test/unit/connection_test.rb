@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper'))
 
-class ConnectionTest < Test::Unit::TestCase
+class GetResponse::ConnectionTest < Test::Unit::TestCase
 
   include RR::Adapters::TestUnit
 
@@ -20,9 +20,9 @@ class ConnectionTest < Test::Unit::TestCase
   end
 
 
-  def test_get_account_info
+  def test_account
     mock(@mocked_response).body { get_account_info_resp }
-    result = @gr_connection.get_account_info
+    result = @gr_connection.account
 
     assert_kind_of GetResponse::Account, result
   end

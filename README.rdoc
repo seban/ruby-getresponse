@@ -9,9 +9,9 @@ Test connection to GetResponse API.
   gr_connection = GetResponse::Connection.new("my_secret_api")
   gr_connection.ping
 
-Get info about account
+Get info about account:
 
-  gr_connection.get_account_info
+  gr_connection.account
 
 Get yout active campaings. More info about operators http://dev.getresponse.com/api-doc/#operators
 

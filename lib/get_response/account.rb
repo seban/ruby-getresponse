@@ -1,6 +1,6 @@
 module GetResponse
 
-  # GetResponse Account
+  # GetResponse Account.
   class Account
     attr_reader :login, :name, :email, :created_on
 
