@@ -46,37 +46,6 @@ module GetResponse
     end
 
 
-    # Get list of active campaigns in account. There are allowed operators for building conditions.
-    # More info about operators http://dev.getresponse.com/api-doc/#operators
-    #
-    #   gr_connection.get_campaings
-    #
-    # Get list of all active campaigns with name "my_campaign" and from_email is from domain "mybiz.xx"
-    #
-    #   gr_connection.get_campaings(:name.is_eq => "my_campaign", :from_email.contain => "%mybiz.xx")
-    #
-    # get_campaings(:name.eq => "my name")
-    def get_campaigns(conditions = {})
-      req_cond = build_conditions(conditions)
-
-      response = send_request("get_campaigns", req_cond)["result"]
-      response.inject([]) do |campaings, resp|
-        campaings << Campaign.new(resp[1].merge("id" => resp[0]))
-      end
-    end
-
-
-    # Get single campaign using <tt>campaign_id</tt>.
-    #
-    # campaign_id:: Integer || String
-    #
-    # returns:: GetResponse::Campaign || nil
-    def get_campaign(campaign_id)
-      result = self.get_campaigns(:id.is_eq => campaign_id)
-      result.first
-    end
-
-
     # TODO: untested!
     # Get messages in account.
     # Conditions:

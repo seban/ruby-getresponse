@@ -13,24 +13,9 @@ Get info about account:
 
   gr_connection.account
 
-Get yout active campaings. More info about operators http://dev.getresponse.com/api-doc/#operators
+Get your active campaigns.
 
-  # get campaings with name "My campaing name"
-  gr_connection.get_campaings(:name.is_eq => "My campaing name")
-
-  # get campaings with other name than "My campaing name"
-  gr_connection.get_campaings(:name.is_not_eq => "My campaing name")
-
-  # get campaings with name like "signup" and with from_email with domain "mybiz.xx"
-  gr_connection.get_campaigns(:name.contain => "%signup%", :from_email.contain => "%mybiz.xx"
-
-Get single campaign
-
-  gr_connection.get_campaign(123456)
-  => <#GetResponse::Campaign ... >
-
-  gr_connection.get_campaign(bad_id)
-  => nil
+  gr_connection.campaigns.all
 
 You can operate on your contacts quite the same way as on ActiveRecord objects. Before any operation
 on contacts you must connect to API.
