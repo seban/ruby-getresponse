@@ -34,5 +34,29 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+  def get_contacts_resp
+    { "result" => {
+      "45bGE" => {
+        "name"=> "Sebastian N.",
+        "created_on"=>"2010-04-06 07:43:32",
+        "cycle_day"=>nil,
+        "campaign"=>"ZyX",
+        "origin"=>"api",
+        "ip"=>nil,
+        "email"=>"sebastian@somehost.com" },
+      "55bGE" => {
+        "name"=> "Sebastian N2.",
+        "created_on"=>"2010-04-06 07:44:32",
+        "cycle_day"=>nil,
+        "campaign"=>"ZyX",
+        "origin"=>"api",
+        "ip"=>nil,
+        "email"=>"sebastian2@somehost.com" }
+    },
+      "error" => nil
+    }.to_json
+  end
+
 end
 

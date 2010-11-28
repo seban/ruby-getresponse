@@ -22,9 +22,7 @@ on contacts you must connect to API.
 
 Get all contacts:
 
-  # connect to API
-  GetResponse::Connection.instance("my_secret_api_key")
-  GetResponse::Contact.find_all
+  gr_connection.contacts.all
 
 Create new contact:
 

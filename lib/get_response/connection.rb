@@ -46,6 +46,14 @@ module GetResponse
     end
 
 
+    # Method returns proxy to execute all contact related operations.
+    #
+    # returns:: GetResponse::ContactProxy
+    def contacts
+      @contact_proxy ||= GetResponse::ContactProxy.new(self)
+    end
+
+
     # TODO: untested!
     # Get messages in account.
     # Conditions:

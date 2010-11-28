@@ -78,18 +78,6 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
-  def test_find_all_contacts
-    mock(@mocked_response).body { find_response_mock }
-
-    resp = GetResponse::Contact.find_all()
-    assert_kind_of Array, resp
-    resp.each do |contact|
-      assert_kind_of GetResponse::Contact, contact
-      assert_not_nil contact.id
-    end
-  end
-
-
   def test_destroy_contact
     mock(@mocked_response).body { destroy_contact_mock }
     contact = new_contact("id" => "45bgT")
@@ -214,30 +202,6 @@ class ContactTest < Test::Unit::TestCase
 
   def add_contact_invalid_email_syntax
     { "result" => nil, "error" => "Invalid email syntax" }.to_json
-  end
-
-
-  def find_response_mock
-    { "result" => {
-      "45bGE" => {
-        "name"=> "Sebastian N.",
-        "created_on"=>"2010-04-06 07:43:32",
-        "cycle_day"=>nil,
-        "campaign"=>"ZyX",
-        "origin"=>"api",
-        "ip"=>nil,
-        "email"=>"sebastian@somehost.com" },
-      "55bGE" => {
-        "name"=> "Sebastian N2.",
-        "created_on"=>"2010-04-06 07:44:32",
-        "cycle_day"=>nil,
-        "campaign"=>"ZyX",
-        "origin"=>"api",
-        "ip"=>nil,
-        "email"=>"sebastian2@somehost.com" }
-    },
-      "error" => nil
-    }.to_json
   end
 
 

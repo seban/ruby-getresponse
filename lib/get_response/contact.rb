@@ -30,18 +30,6 @@ module GetResponse
     end
 
 
-    # Find all contacts associated with GetResponse account
-    #
-    # returns:: [Contact]
-    def self.find_all
-      response = GetResponse::Connection.instance.send_request("get_contacts", {})
-
-      response["result"].inject([]) do |contacts, resp|
-        contacts << Contact.new(resp[1].merge("id" => resp[0]))
-      end
-    end
-
-
     # Save contact object. When object can't be saved than <tt>GetResponseError</tt> is raised,
     # otherwise returns <tt>true</tt>.
     #

@@ -33,6 +33,11 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_contacts
+    assert_kind_of GetResponse::ContactProxy, @gr_connection.contacts
+  end
+
+
   def test_get_messages
     mock(@mocked_response).body { get_messages_resp }
 
