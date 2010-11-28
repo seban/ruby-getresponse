@@ -38,6 +38,14 @@ module GetResponse
     end
 
 
+    # Method returns proxy to execute all campaign related operations.
+    #
+    # returns:: GetResponse::CampaignProxy
+    def campaigns
+      @campaign_proxy ||= GetResponse::CampaignProxy.new(self)
+    end
+
+
     # Get list of active campaigns in account. There are allowed operators for building conditions.
     # More info about operators http://dev.getresponse.com/api-doc/#operators
     #

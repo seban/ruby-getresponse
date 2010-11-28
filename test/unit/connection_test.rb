@@ -8,7 +8,7 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
     @gr_connection = GetResponse::Connection.new("my_secret_api_key")
     @mocked_response = mock
     mock(@mocked_response).code.any_times { 200 }
-    mock(Net::HTTP).start("api2.getresponse.com", 80) { @mocked_response }
+    mock(Net::HTTP).start("api2.getresponse.com", 80).any_times { @mocked_response }
   end
 
 
@@ -28,6 +28,10 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_campaigns
+    assert_kind_of GetResponse::CampaignProxy, @gr_connection.campaigns
+  end
+  
   def test_get_campaigns_without_conditions
     mock(@mocked_response).body { get_campaigns_resp }
 

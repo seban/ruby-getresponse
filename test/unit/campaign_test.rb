@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper'))
 
-class CampaignTest < Test::Unit::TestCase
+class GetResponse::CampaignTest < Test::Unit::TestCase
 
   def test_initialize
     campaign = GetResponse::Campaign.new("id" => 1005, "name" => "test_campaign",
