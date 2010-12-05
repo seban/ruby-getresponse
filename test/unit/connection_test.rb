@@ -20,6 +20,14 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_ping_with_bad_api_key
+    mock(@mocked_response).code { "403" }
+
+    exception = assert_raise(GetResponse::GetResponseError) { @gr_connection.ping }
+    assert_equal 'API key verification failed', exception.message
+  end
+
+
   def test_account
     mock(@mocked_response).body { get_account_info_resp }
     result = @gr_connection.account

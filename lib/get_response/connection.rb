@@ -104,6 +104,7 @@ module GetResponse
       resp = Net::HTTP.start(uri.host, uri.port) do |conn|
         conn.post("/", request_params)
       end
+      raise GetResponseError.new("API key verification failed") if resp.code.to_i == 403
       response = JSON.parse(resp.body)
       if response["error"]
         raise GetResponse::GetResponseError.new(response["error"])
