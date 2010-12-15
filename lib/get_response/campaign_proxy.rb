@@ -14,7 +14,7 @@ module GetResponse
     def all
       response = @connection.send_request("get_campaigns", {})["result"]
       response.inject([]) do |campaigns, resp|
-        campaigns << Campaign.new(resp[1].merge("id" => resp[0]))
+        campaigns << Campaign.new(resp[1].merge("id" => resp[0]), @connection)
       end
     end
 

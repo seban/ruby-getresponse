@@ -16,4 +16,14 @@ class GetResponse::ContactProxyTest < Test::Unit::TestCase
     assert_kind_of Array, all_contacts
     assert all_contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
   end
+
+
+  def test_all_with_passed_conditions
+    mock(@connection).send_request('get_contacts', { :campaigns => ["vY2"] }) { JSON.parse get_contacts_resp }
+    contacts = @proxy.all(:campaigns => ["vY2"])
+
+    assert_kind_of Array, contacts
+    assert contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
+  end
+
 end
