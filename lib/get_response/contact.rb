@@ -6,7 +6,7 @@ module GetResponse
     attr_reader :id
 
 
-    def initialize(params)
+    def initialize(params, connection)
       @campaign = params["campaign"]
       @name = params["name"]
       @email = params["email"]
@@ -14,19 +14,7 @@ module GetResponse
       @ip = params["ip"]
       @customs = parse_customs(params["customs"])
       @id = params["id"]
-    end
-
-
-    # Add contact to the list. Method raises an exception <tt>GetResponseError</tt> if contact can't
-    # be added (bad email syntax for example).
-    # Example:
-    #   GetResponse::Contact.create("email" => "john@doe.org", "name => "John D.", "campaign" => "N67")
-    #
-    # params:: Hash - attributes for new contact
-    # returns:: Boolean - true if contact queued for create
-    def self.create(params)
-      contact = Contact.new(params)
-      contact.save
+      @connection = connection
     end
 
 
@@ -35,9 +23,7 @@ module GetResponse
     #
     # returns:: Boolean
     def save
-      connection = GetResponse::Connection.instance
-
-      result = connection.send_request(:add_contact, self.attributes)
+      result = @connection.send_request(:add_contact, self.attributes)
       result["error"].nil?
     end
 
@@ -68,7 +54,7 @@ module GetResponse
     def destroy
       raise GetResponse::GetResponseError.new("Can't delete contact without id") unless @id
 
-      resp = GetResponse::Connection.instance.send_request("delete_contact", { "contact" => @id })
+      resp = @connection.send_request("delete_contact", { "contact" => @id })
       resp["result"]["deleted"].to_i == 1
     end
 
@@ -92,7 +78,7 @@ module GetResponse
     # returns:: Boolean
     def move(new_campaign_id)
       param = { "contact" => @id, "campaign" => new_campaign_id }
-      result = GetResponse::Connection.instance.send_request("move_contact", param)
+      result = @connection.send_request("move_contact", param)
       result["result"]["updated"].to_i == 1
     end
 
@@ -102,7 +88,7 @@ module GetResponse
     # returns:: Hash
     def geoip
       param = { "contact" => @id }
-      GetResponse::Connection.instance.send_request("get_contact_geoip", param)["result"]
+      @connection.send_request("get_contact_geoip", param)["result"]
     end
 
 
@@ -113,7 +99,7 @@ module GetResponse
     # returns:: true
     def set_cycle(value)
       param = { "contact" => @id, "cycle_day" => value }
-      GetResponse::Connection.instance.send_request("set_contact_cycle", param)["result"]["updated"].to_i == 1
+      @connection.send_request("set_contact_cycle", param)["result"]["updated"].to_i == 1
     end
 
 

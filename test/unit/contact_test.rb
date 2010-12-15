@@ -13,41 +13,6 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
-  def test_create_good_data
-    mock(@mocked_response).body { add_contact_queued_response }
-
-    res = GetResponse::Contact.create("email" => "sebastian@somehost.pl", "name" => "Sebastian", "campaign" => "myCampaignId")
-    assert_equal true, res
-  end
-
-
-  def test_create_good_data_duplicated
-    mock(@mocked_response).body { add_contact_duplicated_response }
-
-    res = GetResponse::Contact.create("email" => "sebastian@somehost.pl", "name" => "Sebastian", "campaign" => "myCampaignId")
-    assert_equal true, res
-  end
-
-
-  def test_create_good_data_with_customs
-    mock(@mocked_response).body { add_contact_queued_response }
-
-    res = GetResponse::Contact.create("email" => "sebastian@somehost.pl", "name" => "Sebastian",
-      "campaign" => "myCampaignId", "customs" => { "one" => "two" })
-    assert_equal true, res
-  end
-
-
-  def test_create_bad_email
-    mock(@mocked_response).body { add_contact_invalid_email_syntax }
-
-    exception = assert_raise(GetResponse::GetResponseError) do
-      GetResponse::Contact.create("email" => "sebastian@.pl", "name" => "Sebastian", "campaign" => "myCampaignId")
-    end
-    assert_equal "Invalid email syntax", exception.message
-  end
-
-
   def test_attributes_without_customs
     satisfy_mocks
 
@@ -183,8 +148,8 @@ class ContactTest < Test::Unit::TestCase
     GetResponse::Contact.new({
       "email" => "sebastian@somehost.pl",
       "name" => "Sebastian",
-      "campaign" => "myCampaignId"
-    }.merge(options))
+      "campaign" => "myCampaignId",
+    }.merge(options), @gr_connection)
   end
 
 

@@ -19,7 +19,7 @@ module GetResponse
       response = @connection.send_request("get_contacts", conditions)
 
       response["result"].inject([]) do |contacts, resp|
-        contacts << Contact.new(resp[1].merge("id" => resp[0]))
+        contacts << Contact.new(resp[1].merge("id" => resp[0]), @connection)
       end
     end
 
