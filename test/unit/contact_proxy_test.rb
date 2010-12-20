@@ -26,4 +26,24 @@ class GetResponse::ContactProxyTest < Test::Unit::TestCase
     assert contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
   end
 
+
+  def test_create_success
+    new_contact_attrs = {"name"     => "John Doe", "email" => "john.d@somewhere.com",
+                         "campaign" => "campaignId", "customs" => {"source" => "mainpage"}}
+    mock(@connection).send_request('add_contact', new_contact_attrs) { {'result' => {'queued' => 1}} }
+    contact = @proxy.create(new_contact_attrs)
+
+    assert_kind_of GetResponse::Contact, contact
+  end
+
+
+  def test_create_fail
+    new_contact_attrs = {"name"     => "John Doe", "email" => "john.d@somewhere.com",
+                         "campaign" => "campaignId", "customs" => {"source" => "mainpage"}}
+    fail_exception = GetResponse::GetResponseError.new("Contact already queued for target campaign")
+    mock(@connection).send_request('add_contact', new_contact_attrs) { raise fail_exception }
+
+    assert_raise(GetResponse::GetResponseError) { @proxy.create(new_contact_attrs) }
+  end
+
 end

@@ -27,7 +27,7 @@ Get all contacts:
 Create new contact:
 
   # with connection
-  GetResponse::Contact.create("name" => "John Doe", "email" => "john.d@somewhere.com",
+  gr_connection.contacts.create("name" => "John Doe", "email" => "john.d@somewhere.com",
     "campaign" => "campaignId", "customs" => { "source" => "mainpage" })
 
 Update your contact:

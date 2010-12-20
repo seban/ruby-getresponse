@@ -23,6 +23,15 @@ module GetResponse
       end
     end
 
+
+    # Create new contact. Method can raise <tt>GetResponseError</tt>.
+    #
+    # returns:: GetResponse::Contact
+    def create(attrs)
+      result = @connection.send_request('add_contact', attrs)
+      GetResponse::Contact.new(attrs, @connection) if result['result']['queued']
+    end
+
   end
 
 end
