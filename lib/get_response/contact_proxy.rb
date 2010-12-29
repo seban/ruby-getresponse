@@ -28,8 +28,9 @@ module GetResponse
     #
     # returns:: GetResponse::Contact
     def create(attrs)
-      result = @connection.send_request('add_contact', attrs)
-      GetResponse::Contact.new(attrs, @connection) if result['result']['queued']
+      contact = GetResponse::Contact.new(attrs, @connection)
+      contact.save
+      contact
     end
 
   end
