@@ -46,60 +46,6 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
-  def test_get_messages
-    mock(@mocked_response).body { get_messages_resp }
-
-    response = @gr_connection.get_messages
-
-    assert_kind_of Array, response
-    response.each { |resp| assert_kind_of GetResponse::Message, resp }
-  end
-
-
-  def test_get_messages_with_conditions
-    mock(@mocked_response).body { get_messages_resp }
-
-    response = @gr_connection.get_messages(:type => 'follow-up')
-    assert_kind_of Array, response
-    response.each { |resp| assert_kind_of GetResponse::Message, resp }
-  end
-
-
-  def test_get_messages_empty_results
-    mock(@mocked_response).body { { "result" => {} }.to_json }
-
-    response = @gr_connection.get_messages(:type => 'follow-up')
-    assert_kind_of Array, response
-    assert response.empty?
-  end
-
-
-  def test_get_messages_with_conditions_empty_results
-    mock(@mocked_response).body { { "result" => {} }.to_json }
-
-    response = @gr_connection.get_messages(:type => 'follow-up')
-    assert_kind_of Array, response
-    assert response.empty?
-  end
-
-
-  def test_get_message
-    mock(@mocked_response).body { get_message_resp }
-    
-    message = @gr_connection.get_message("123")
-    assert_kind_of GetResponse::Message, message
-    assert_equal "123", message.id
-  end
-
-
-  def test_get_message_with_bad_identifier
-    mock(@mocked_response).body { { "result" => {} }.to_json }
-
-    response = @gr_connection.get_message("bad_param")
-    assert_nil(response)
-  end
-
-
   protected
 
 
