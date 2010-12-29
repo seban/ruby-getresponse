@@ -1,6 +1,8 @@
 == GetResponse
 
-Wrapper for GetResponse API
+Wrapper for GetResponse API.
+Class interfaces from version 0.2 has changed breaking backward compatibility.
+Be sure to check changes before update.
 
 == Usage
 
