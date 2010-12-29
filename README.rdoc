@@ -36,6 +36,10 @@ Update your contact:
   # contact - existing contact
   contact.update("name" => "John Thenewname")
 
+  # or
+  contact.name = "John Thenewname"
+  contact.save
+
 Delete contact:
 
   # with connection
@@ -61,17 +65,3 @@ Set contact cycle
   # with connection
   # contact - existing contact
   contact.set_cycle(5)
-
-Get messages in account:
-
-  # get messages assigned to campaign with "N3i" ID
-  gr_connection.get_messages(:campaigns => ["N3i"])
-
-  # get messages with newsletter type
-  gr_connection.get_messages(:type => "newsletter")
-
-  # get messages from from campaigns with name like "my_biz"
-  gr_connection.get_messages(:get_campaigns => { :name.contain => "%my_biz%" })
-
-  # get one messages identifier by <tt>id</tt>
-  gr_connection.get_message("some_id")
