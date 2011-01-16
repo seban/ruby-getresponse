@@ -112,6 +112,15 @@ module GetResponse
     end
 
 
+    # Set custom attributes in contact instance. After set attributes you _must_ save contact.
+    #
+    # value:: Hash
+    # returns:: Hash
+    def customs=(value)
+      @customs = parse_customs(value)
+    end
+
+
     protected
 
 
