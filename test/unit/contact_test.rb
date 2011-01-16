@@ -141,6 +141,15 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_get_customs
+    mock(@mocked_response).body { customs_response }
+    contract = new_contact("id" => "45bgT")
+    resp = contract.customs
+
+    assert_kind_of Hash, resp
+  end
+
+
   protected
 
 
@@ -219,6 +228,17 @@ class ContactTest < Test::Unit::TestCase
 
   def satisfy_mocks
     Net::HTTP.start("api2.getresponse.com", 80)
+  end
+
+
+  def customs_response
+    {
+      "result" => {
+        "car"  => "big",
+        "bike" => ["white", "blue"]
+      },
+      "error"  => nil
+    }.to_json
   end
 
 end

@@ -67,3 +67,10 @@ Set contact cycle
   # with connection
   # contact - existing contact
   contact.set_cycle(5)
+
+Get custom attributes
+
+  # with connection
+  # contact - existing contact
+  contact.customs
+  => { "attr_name" => "attr_value" }

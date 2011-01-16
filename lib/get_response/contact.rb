@@ -103,6 +103,15 @@ module GetResponse
     end
 
 
+    # Get list of custom attributes. It performs additional API request to fetch attributes. By
+    # default new contacts has en empty custom attributes list.
+    #
+    # returns:: Hash
+    def customs
+      @connection.send_request("get_contact_customs", { "contact" => @id })["result"]
+    end
+
+
     protected
 
 
