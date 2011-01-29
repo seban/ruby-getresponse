@@ -74,3 +74,10 @@ Get custom attributes
   # contact - existing contact
   contact.customs
   => { "attr_name" => "attr_value" }
+
+Get account from fields
+
+  # with account
+  # acocunt - existing account
+  account.from_fields
+  => [<FromField: xcv>]

@@ -27,7 +27,7 @@ module GetResponse
     # returns:: GetResponse::Account
     def account
       resp = self.send_request("get_account_info")
-      GetResponse::Account.new(resp["result"])
+      GetResponse::Account.new(resp["result"], self)
     end
 
 
