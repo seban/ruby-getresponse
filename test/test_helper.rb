@@ -58,5 +58,21 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+    # Fetch from fields for account.
+  #
+  # returns:: [FromField]
+  def get_account_from_fields_resp
+    {
+      "result" => {
+          "1024" => {
+          "created_on" => "2010-12-14 00:00:00",
+          "email" => "email@text.xx",
+          "name" => "default"
+        }
+      },
+      "error" => nil
+    }
+  end
 end
 

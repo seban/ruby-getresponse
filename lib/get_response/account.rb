@@ -15,10 +15,7 @@ module GetResponse
 
 
     def from_fields
-      from_fields_attrs = @connection.send_request("get_account_from_fields")["result"]
-      from_fields_attrs.map do |id, attrs|
-        FromField.new(attrs.merge("id" => id))
-      end
+      FromFieldsProxy.new(@connection)
     end
   end
 end

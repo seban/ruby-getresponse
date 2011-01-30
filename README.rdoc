@@ -79,5 +79,5 @@ Get account from fields
 
   # with account
   # acocunt - existing account
-  account.from_fields
+  account.from_fields.all
   => [<FromField: xcv>]
