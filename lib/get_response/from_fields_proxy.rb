@@ -18,6 +18,16 @@ module GetResponse
       end
     end
 
+
+    # Create new from field connection with account. Method returns new instance of <tt>FromField</tt>
+    # if new from field was saved or raise <tt>GetResponseError</tt> if not.
+    #
+    # returns:: FromField
+    def create(attributes)
+      add_result = @connection.send_request("add_account_from_field", attributes)["result"]
+      FromField.new(attributes.merge("id" => add_result["FROM_FIELD_ID"]))
+    end
+
   end
 
 end

@@ -16,4 +16,23 @@ class FromFieldsProxyTest < Test::Unit::TestCase
     assert_equal true, from_fields.all? { |field| field.instance_of? GetResponse::FromField }
   end
 
+
+  def test_create_success
+    new_from_field_attrs = { "name" => "My new from field", "email" => "new_from@field.ca" }
+    mock(@connection).send_request("add_account_from_field", new_from_field_attrs) { add_account_from_field_success }
+    from_field = @proxy.create(new_from_field_attrs)
+
+    assert_kind_of GetResponse::FromField, from_field
+  end
+
+
+  def test_create_fail
+    new_from_field_attrs = { "name" => "", "email" => "" }
+    mock(@connection).send_request("add_account_from_field", new_from_field_attrs) do
+      raise GetResponse::GetResponseError.new(add_account_from_field_fail["error"])
+    end
+
+    assert_raise(GetResponse::GetResponseError) { @proxy.create(new_from_field_attrs) }
+  end
+
 end

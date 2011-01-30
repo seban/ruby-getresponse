@@ -78,6 +78,13 @@ Get custom attributes
 Get account from fields
 
   # with account
-  # acocunt - existing account
+  # account - existing account
   account.from_fields.all
   => [<FromField: xcv>]
+
+Add account from field
+
+  # with account
+  # account = existing account
+  account.from_fields.create("name" => "My new name", "email" => "my_new_email@foo.bar")
+  => #<GetResponse::FromField:0xb7727010 ... >

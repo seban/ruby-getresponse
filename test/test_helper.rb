@@ -74,5 +74,24 @@ class Test::Unit::TestCase
       "error" => nil
     }
   end
+
+
+  def add_account_from_field_success
+    {
+      "result" => {
+        "FROM_FIELD_ID" => "abc123",
+        "added" => "1"
+      },
+      "error" => nil
+    }
+  end
+
+
+  def add_account_from_field_fail
+    {
+      "result" => nil,
+      "error"  => "Invalid email syntax"
+    }
+  end
 end
 
