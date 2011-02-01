@@ -17,5 +17,11 @@ module GetResponse
     def from_fields
       FromFieldsProxy.new(@connection)
     end
+
+
+    def domains
+      DomainProxy.new(@connection)
+    end
+
   end
 end

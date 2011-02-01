@@ -22,6 +22,14 @@ class AccountTest < Test::Unit::TestCase
   end
 
 
+  def test_domains
+    @connection = connection
+    @account = new_account({}, @connection)
+
+    assert_kind_of GetResponse::DomainProxy, @account.domains
+  end
+
+
   protected
 
 
