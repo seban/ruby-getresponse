@@ -24,6 +24,18 @@ module GetResponse
       @contact_proxy.all(:campaigns => [@id])
     end
 
+
+    # Get domain assigned to this campaign.
+    #
+    # returns:: GetResponse::Domain
+    def domain
+      params = {"campaign" => self.id}
+      domain = @connection.send_request("get_campaign_domain", params)["result"].map do |id, attrs|
+        Domain.new(attrs.merge("id" => id))
+      end
+      domain.first
+    end
+
   end
 
 end

@@ -18,4 +18,28 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
     assert contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
   end
 
+
+  def test_domain
+    mock(@gr_connection).send_request("get_campaign_domain", {"campaign" => @campaign.id}) { domain_resp }
+    domain = @campaign.domain
+
+    assert_kind_of GetResponse::Domain, domain
+  end
+
+
+  protected
+
+
+  def domain_resp
+    {
+      "result" => {
+        "2345" => {
+          "domain" => "domain.com",
+          "created_on" => "2011-01-20 00:00:00"
+        }
+      },
+      "error" => nil
+    }
+  end
+
 end
