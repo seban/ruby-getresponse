@@ -36,6 +36,19 @@ module GetResponse
       domain.first
     end
 
+
+    # Set domain for this campaign.
+    #
+    # new_domain:: GetResponse::Domain
+    # returns:: GetResponse::Domain
+    def domain=(new_domain)
+      params = { "domain" => new_domain.id, "campaign" => self.id }
+
+      # there will be an exception if bad ids sent
+      @connection.send_request("set_campaign_domain", params)
+      new_domain
+    end
+
   end
 
 end

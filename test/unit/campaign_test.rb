@@ -27,6 +27,16 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_set_domain
+    @domain = GetResponse::Domain.new("id" => "23", "domain" => "domain.com")
+    params = { "domain" => @domain.id, "campaign" => @campaign.id }
+    mock(@gr_connection).send_request("set_campaign_domain", params) { set_domain_resp }
+    domain = @campaign.domain= @domain
+
+    assert_kind_of GetResponse::Domain, domain
+  end
+
+
   protected
 
 
@@ -38,6 +48,14 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
           "created_on" => "2011-01-20 00:00:00"
         }
       },
+      "error" => nil
+    }
+  end
+
+
+  def set_domain_resp
+    {
+      "result" => { "updated" => "1" },
       "error" => nil
     }
   end

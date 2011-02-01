@@ -94,3 +94,14 @@ Get account domains
   # with account
   # account - existing account
   account.domains.all
+
+Get campaign domain
+
+  # with campaign
+  # campaign - existing campaign
+  campaign.domain
+
+Set campaign domain
+
+  domain = account.domains.first
+  campaign.domain = domain
