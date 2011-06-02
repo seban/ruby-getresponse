@@ -93,5 +93,31 @@ class Test::Unit::TestCase
       "error"  => "Invalid email syntax"
     }
   end
+
+
+  def get_messages_response_success
+    {
+      "error" => nil,
+      "result" => {
+        "in9J" => {
+          "flags" => ["clicktrack", "openrate"],
+          "campaign" => "VzzH",
+          "subject" => "Życzenia świąteczne",
+          "created_on" => "2010-11-20 14:58:36",
+          "type" => "newsletter",
+          "send_on" => "2010-11-20 14:58:36"
+        },
+        "ZGVe" => {
+          "flags" => ["clicktrack"],
+          "campaign" => "N3i",
+          "subject" => "Wysyłka",
+          "created_on" => "2010-10-24 03:22:08",
+          "type" => "newsletter",
+          "send_on" => "2010-10-24 03:22:08"
+        }
+      }
+    }.to_json
+  end
+  
 end
 
