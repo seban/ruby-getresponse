@@ -116,6 +116,11 @@ Get campaign messages
 Get message contents
 
   # with message
-  # message - existins messsage
+  # message - existing messsage
   message.contents["plain"]
   message.contents["html"]
+
+Get stats of message
+
+  # message - existing message
+  message.stats

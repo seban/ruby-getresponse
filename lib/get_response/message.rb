@@ -23,5 +23,15 @@ module GetResponse
       resp = @connection.send_request("get_message_contents", :message => @id)
       resp["result"]
     end
+
+
+    # Stats of message. Method returns <tt>Hash</tt> instance where hey is a date and value is
+    # set of data.
+    #
+    # returns:: Hash
+    def stats
+      resp = @connection.send_request("get_message_stats", :message => @id)
+      resp["result"]
+    end
   end
 end

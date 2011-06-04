@@ -17,4 +17,13 @@ class GetResponse::MessageTest < Test::Unit::TestCase
     assert_kind_of String, contents["plain"]
   end
 
+
+  def test_stats
+    mock(@connection).send_request("get_message_stats", :message => @message.id) { JSON.parse get_message_stats }
+    stats = @message.stats
+
+    assert_kind_of Hash, stats
+    assert_equal true, stats.values.all? { |val| val.instance_of? Hash }
+  end
+
 end

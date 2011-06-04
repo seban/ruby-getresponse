@@ -130,5 +130,42 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+  def get_message_stats
+    {
+      "error" => nil,
+      "result" => {
+        "2010-01-01" => {
+          "sent" => "1024",
+          "opened" => "512",
+          "clicked" => "128",
+          "bounces_user_unknown" => "8",
+          "bounces_mailbox_full" => "2",
+          "bounces_block_content" => "0",
+          "bounces_block_timeout" => "0",
+          "bounces_block_other" => "1",
+          "bounces_other_soft" => "16",
+          "bounces_other_hard" => "2",
+          "complaints_handled" => "1",
+          "complaints_unhandled" => "0"
+        },
+        "2010-01-02" => {
+          "sent" => "0",
+          "opened" => "64",
+          "clicked" => "16",
+          "bounces_user_unknown" => "0",
+          "bounces_mailbox_full" => "1",
+          "bounces_block_content" => "0",
+          "bounces_block_timeout" => "0",
+          "bounces_block_other" => "0",
+          "bounces_other_soft" => "2",
+          "bounces_other_hard" => "0",
+          "complaints_handled" => "1",
+          "complaints_unhandled" => "0"
+        }
+      }
+    }.to_json
+  end
+
 end
 
