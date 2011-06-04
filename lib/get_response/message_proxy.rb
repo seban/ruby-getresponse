@@ -8,14 +8,18 @@ module GetResponse
     end
 
 
-    # Get all messages from account.
+    # Get all messages from account. <tt>Hash</tt> with conditions can be optionally passed as
+    # parameter.
     # Example:
     #   @message_proxy.all
     #   => [<GetResponse::Message ...>, <GetResponse::Message ...>]
+    #   @message_proxy.all(:campaigns => ["my_campaign_id"]
+    #   => [<GetResponse::Message ...>, <GetResponse::Message ...>]
     #
+    # conditions::  Hash, empty by default
     # returns:: Array of GetResponse::Message
-    def all
-      response = @connection.send_request("get_messages")
+    def all(conditions = {})
+      response = @connection.send_request("get_messages", conditions)
 
       response["result"].inject([]) do |messages, resp|
         messages << Message.new(resp[1].merge("id" => resp[0]), @connection)
