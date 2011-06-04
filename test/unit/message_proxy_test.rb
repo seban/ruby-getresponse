@@ -25,4 +25,14 @@ class GetResponse::MessageProxyTest < Test::Unit::TestCase
     assert_equal true, messages.all? { |msg| msg.instance_of? GetResponse::Message }
   end
 
+
+  def test_all_with_conditions_on_message_type
+    mock(@connection).send_request("get_messages", {:type => "newsletter"}) { JSON.parse get_messages_response_success }
+    messages = @message_proxy.all(:type => "newsletter")
+
+    assert_kind_of Array, messages
+    assert_equal true, messages.all? { |msg| msg.instance_of? GetResponse::Message }
+    assert_equal true, messages.all? { |msg| msg.type == "newsletter" }
+  end
+
 end

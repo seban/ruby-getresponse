@@ -50,12 +50,17 @@ module GetResponse
     end
 
 
-    # Get messages assigned to this campaign.
+    # Get messages assigned to this campaign. Optionally conditions <tt>Hash</tt> can be passed, for
+    # example to get campaign messages which are newsletters only.
+    # Example:
+    #   @campaign.messages
+    #   @campaign.messages(:type => "newsletter")
     #
     # returns:: [GetResponse::Message]
-    def messages
+    def messages(conditions = {})
+      conditions[:campaigns]= [@id]
       @message_proxy = MessageProxy.new @connection
-      @message_proxy.all(:campaigns => [@id])
+      @message_proxy.all(conditions)
     end
 
   end

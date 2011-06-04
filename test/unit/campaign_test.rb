@@ -47,6 +47,17 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_messages_with_conditions
+    params = {:campaigns => [@campaign.id], :type => "newsletter"}
+    mock(@gr_connection).send_request("get_messages", params) { JSON.parse get_messages_response_success }
+    messages = @campaign.messages(:type => "newsletter")
+
+    assert_kind_of Array, messages
+    assert_equal true, messages.all? { |msg| msg.instance_of? GetResponse::Message }
+    assert_equal true, messages.all? { |msg| msg.type == "newsletter" }
+  end
+
+
   protected
 
 
