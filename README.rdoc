@@ -105,3 +105,10 @@ Set campaign domain
 
   domain = account.domains.first
   campaign.domain = domain
+
+Get campaign messages
+
+  # with campaign
+  # campaign - exiting campaign
+  messages = campaign.messages
+  newsletters = campaign.messages(:type => "newsletter")
