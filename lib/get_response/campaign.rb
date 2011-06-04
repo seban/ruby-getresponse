@@ -49,6 +49,15 @@ module GetResponse
       new_domain
     end
 
+
+    # Get messages assigned to this campaign.
+    #
+    # returns:: [GetResponse::Message]
+    def messages
+      @message_proxy = MessageProxy.new @connection
+      @message_proxy.all(:campaigns => [@id])
+    end
+
   end
 
 end

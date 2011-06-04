@@ -37,6 +37,16 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_messages
+    params = {:campaigns => [@campaign.id]}
+    mock(@gr_connection).send_request("get_messages", params) { JSON.parse get_messages_response_success }
+    messages = @campaign.messages
+
+    assert_kind_of Array, messages
+    assert_equal true, messages.all? { |msg| msg.instance_of? GetResponse::Message }
+  end
+
+
   protected
 
 
