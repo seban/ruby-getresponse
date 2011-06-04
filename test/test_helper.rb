@@ -118,6 +118,17 @@ class Test::Unit::TestCase
       }
     }.to_json
   end
-  
+
+
+  def get_message_contents
+    {
+      "error" => nil,
+      "result" => {
+        "plain" => "Hello there!",
+        "html" => "<h1>Hello</h1> there!"
+      }
+    }.to_json
+  end
+
 end
 

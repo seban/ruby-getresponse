@@ -109,6 +109,13 @@ Set campaign domain
 Get campaign messages
 
   # with campaign
-  # campaign - exiting campaign
+  # campaign - existing campaign
   messages = campaign.messages
   newsletters = campaign.messages(:type => "newsletter")
+
+Get message contents
+
+  # with message
+  # message - existins messsage
+  message.contents["plain"]
+  message.contents["html"]

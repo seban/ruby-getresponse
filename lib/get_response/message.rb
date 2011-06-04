@@ -13,5 +13,15 @@ module GetResponse
       @created_on = params["created_on"]
       @connection = connection
     end
+
+
+    # Content of message. Every message has two kinds of content: plain and html. Method returns
+    # <tt>Hash</tt> instance with keys <tt>"plain"</tt> and <tt>"html"</tt>.
+    #
+    # returns:: Hash
+    def contents
+      resp = @connection.send_request("get_message_contents", :message => @id)
+      resp["result"]
+    end
   end
 end
