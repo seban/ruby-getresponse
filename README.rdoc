@@ -124,3 +124,8 @@ Get stats of message
 
   # message - existing message
   message.stats
+
+Delete message
+
+  # message - existing message
+  message.destroy
