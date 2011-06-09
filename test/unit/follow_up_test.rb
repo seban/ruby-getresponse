@@ -17,6 +17,28 @@ class GetResponse::FollowUpTest < Test::Unit::TestCase
   end
 
 
+  def test_set_day_of_cycle
+    new_day_of_cycle = 14
+    params = {:message => @follow_up.id, :day_of_cycle => new_day_of_cycle}
+    response = {"result" => {"updated" => "1"}, "error" => nil}
+    mock(@connection).send_request("set_follow_up_cycle", params) { response }
+    @follow_up.day_of_cycle = new_day_of_cycle
+
+    assert_equal new_day_of_cycle, @follow_up.day_of_cycle
+  end
+
+
+  def test_set_day_of_cycle_bad_value
+    new_day_of_cycle = 14
+    params = {:message => @follow_up.id, :day_of_cycle => new_day_of_cycle}
+    exception = GetResponse::GetResponseError.new "Day of cycle already used"
+    mock(@connection).send_request("set_follow_up_cycle", params) { raise exception }
+    
+    ex = assert_raise(GetResponse::GetResponseError) { @follow_up.day_of_cycle = new_day_of_cycle }
+    assert_equal "Day of cycle already used", ex.message
+  end
+
+
   protected
 
 

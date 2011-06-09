@@ -2,7 +2,7 @@ module GetResponse
 
   # Class representa a message in GetResponse
   class Message
-    attr_reader :id, :type, :subject, :day_of_cycle, :flags, :created_on
+    attr_reader :id, :type, :subject, :flags, :created_on
 
     def initialize(params, connection)
       @id = params["id"]
