@@ -73,6 +73,17 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_set_postal_address
+    postal_address = JSON.parse(get_postal_address)
+    request_params = {"campaign" => @campaign.id}.merge(postal_address)
+    response = {"result" => {"updated" => "1"}, "error" => nil}
+    mock(@gr_connection).send_request("set_campaign_postal_address", request_params) { response }
+    result = @campaign.postal_address = postal_address
+
+    assert_kind_of Hash, result
+  end
+
+
   protected
 
 

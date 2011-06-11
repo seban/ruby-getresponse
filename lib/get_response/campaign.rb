@@ -72,6 +72,18 @@ module GetResponse
       @connection.send_request("get_campaign_postal_address", "campaign" => @id)["result"]
     end
 
+
+    # Set postal address and postal design (formatting) in campaign. If something goes wrong
+    # exception <tt>GetResponse::GetResponseError</tt>.
+    #
+    # postal_address_hash:: Hash
+    # returns:: Hash
+    def postal_address=(postal_address_hash)
+      params = {"campaign" => @id}.merge(postal_address_hash)
+      result = @connection.send_request("set_campaign_postal_address", params)["result"]
+      result if result["updated"].to_i == 1
+    end
+
   end
 
 end
