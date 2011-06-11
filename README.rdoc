@@ -129,3 +129,10 @@ Delete message
 
   # message - existing message
   message.destroy
+
+Get/set campaign's postal address
+
+  # campaign_one - existing campaign
+  # campaign_two - existing campaign
+  postal_address = campaign_one.postal_address
+  campaign_two.postal_address = postal_address
