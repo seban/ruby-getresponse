@@ -63,6 +63,15 @@ module GetResponse
       @message_proxy.all(conditions)
     end
 
+
+    # Get campaign's postal address and and postal design (formatting). Postal address is returned
+    # as <tt>Hash</tt> instance.
+    #
+    # returns:: Hash
+    def postal_address
+      @connection.send_request("get_campaign_postal_address", "campaign" => @id)["result"]
+    end
+
   end
 
 end

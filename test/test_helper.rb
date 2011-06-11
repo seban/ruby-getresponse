@@ -167,5 +167,21 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+  def get_postal_address
+    {
+      "result" => {
+        "name" => "My name",
+        "address" => "My address",
+        "city" => "My city",
+        "state" => "My state",
+        "zip" => "My zip",
+        "country" => "My country",
+        "design" => "[[name]], [[address]], [[city]], [[state]] [[zip]], [[country]]"
+      },
+      "error" => nil
+    }.to_json
+  end
+
 end
 

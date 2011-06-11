@@ -58,6 +58,21 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_get_postal_address
+    mock(@gr_connection).send_request("get_campaign_postal_address", {"campaign" => @campaign.id}) { JSON.parse get_postal_address }
+    postal_address = @campaign.postal_address
+
+    assert_kind_of Hash, postal_address
+    assert_not_nil postal_address["name"]
+    assert_not_nil postal_address["address"]
+    assert_not_nil postal_address["city"]
+    assert_not_nil postal_address["state"]
+    assert_not_nil postal_address["zip"]
+    assert_not_nil postal_address["country"]
+    assert_not_nil postal_address["design"]
+  end
+
+
   protected
 
 
