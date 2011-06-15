@@ -113,6 +113,11 @@ Get campaign messages
   messages = campaign.messages
   newsletters = campaign.messages(:type => "newsletter")
 
+Get all messages
+
+  # with connection
+  connection.messages.all
+
 Get message contents
 
   # with message

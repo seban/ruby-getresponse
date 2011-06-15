@@ -47,6 +47,14 @@ module GetResponse
     end
 
 
+    # Method returns proxy to execute all message related operations.
+    #
+    # returns:: GetResponse::MessageProxy
+    def messages
+      @message_proxy ||= GetResponse::MessageProxy.new(self)
+    end
+
+
     # Send request to JSON-RPC service.
     #
     # method::  String

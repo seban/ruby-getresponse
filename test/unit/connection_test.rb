@@ -46,6 +46,11 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_messages
+    assert_kind_of GetResponse::MessageProxy, @gr_connection.messages
+  end
+
+
   protected
 
 
