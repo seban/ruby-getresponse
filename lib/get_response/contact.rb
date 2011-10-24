@@ -121,6 +121,15 @@ module GetResponse
     end
 
 
+    # List dates when the messages were opened by contact. If a contact opened the same message
+    # multiple times, only the oldest date is listed.
+    # returns:: Hash
+    def opens
+      param = {"contact" => @id}
+      @connection.send_request("get_contact_opens", param)["result"]
+    end
+
+
     protected
 
 

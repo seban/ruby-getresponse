@@ -150,6 +150,16 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_opens
+    mock(@mocked_response).body { contact_opens_response }
+    contact = new_contact
+    resp = contact.opens
+
+    assert_kind_of Hash, resp
+    assert_equal 2, resp.keys.size
+  end
+
+
   protected
 
 
@@ -238,6 +248,17 @@ class ContactTest < Test::Unit::TestCase
         "bike" => ["white", "blue"]
       },
       "error"  => nil
+    }.to_json
+  end
+
+
+  def contact_opens_response
+    {
+      "result" => {
+        "message_id_1" => (Time.now - (1 * 24 * 60 * 60)).to_s,
+        "message_id_2" => (Time.now - (2 * 24 * 60 * 60)).to_s
+      },
+      "error" => nil
     }.to_json
   end
 
