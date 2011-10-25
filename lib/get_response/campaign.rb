@@ -84,6 +84,24 @@ module GetResponse
       result if result["updated"].to_i == 1
     end
 
+
+    # Get contacts subscription stats for this campaign aggregated by date, campaign and contact’s origin.
+    # Example:
+    #
+    #   # get stats for camapaign, any time period
+    #   @campaign.subscription_statistics
+    #
+    #   # get stats for specified date
+    #   @campaign.subscription_statistics(:created_on => {:at => Date.today})
+    #   @campaign.subscription_statistics(:created_on => {:from => "2011-01-01", :to => "2011-12-30"})
+    #
+    # @param conditions [Hash] conditions for statistics query, empty by default
+    # @return [Hash] collection of aggregated statistics
+    def subscription_statistics(conditions = {})
+      @contact_proxy = ContactProxy.new(@connection)
+      @contact_proxy.statistics(conditions.merge(:campaigns => [@id]))
+    end
+
   end
 
 end

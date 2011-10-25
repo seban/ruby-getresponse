@@ -147,3 +147,10 @@ To get contact openned message list with dates
 
   # contact - existing contact
   @contact.opens
+
+Get subscriptions statistics
+
+  # campaign - existing campaign
+  campaign.subscription_statistics
+  campaign.subscription_statistics(:created_on => {:at => Date.today})
+  campaign.subscription_statistics(:created_on => {:from => "2011-01-01", :to => "2011-12-30"})

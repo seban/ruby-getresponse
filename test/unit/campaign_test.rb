@@ -84,6 +84,29 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_subscriptions_stats_without_conditions
+    conditions = {:campaigns => [@campaign.id]}
+    mock(@gr_connection).send_request("get_contacts_subscription_stats", conditions) do
+      JSON.parse get_contact_subscription_stats_response
+    end
+    stats = @campaign.subscription_statistics
+
+    assert_kind_of Hash, stats
+  end
+
+
+  def test_subscriptions_stats_with_conditions
+    conditions = {:created_on => {:from => "2010-01-09", :to => "2011-10-01"}}
+    parsed_conditions = {:created_on => {"FROM" => "2010-01-09", "TO" => "2011-10-01"}}
+    mock(@gr_connection).send_request("get_contacts_subscription_stats", parsed_conditions.merge(:campaigns => [@campaign.id])) do
+      JSON.parse get_contact_subscription_stats_response
+    end
+    stats = @campaign.subscription_statistics(conditions)
+
+    assert_kind_of Hash, stats
+  end
+
+
   protected
 
 

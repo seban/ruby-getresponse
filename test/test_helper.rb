@@ -183,5 +183,66 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+  def get_contact_subscription_stats_response
+    {
+      "result" => {
+        "2010-01-01" => {
+          "n3i" => {
+            "iphone" => 0,
+            "www" => 32,
+            "sale" => 64,
+            "leads" => 2,
+            "forward" => 0,
+            "panel" => 4,
+            "api" => 128,
+            "import" => 0,
+            "email" => 16,
+            "survey" => 1
+          },
+          "pou" => {
+            "iphone" => 8,
+            "www" => 0,
+            "sale" => 0,
+            "leads" => 64,
+            "forward" => 0,
+            "panel" => 0,
+            "api" => 512,
+            "import" => 16,
+            "email" => 0,
+            "survey" => 0
+          }
+        },
+        "2010-01-02" => {
+          "n3i" => {
+            "iphone" => 0,
+            "www" => 64,
+            "sale" => 128,
+            "leads" => 8,
+            "forward" => 1,
+            "panel" => 8,
+            "api" => 1024,
+            "import" => 0,
+            "email" => 2,
+            "survey" => 8
+          },
+          "pou" => {
+            "iphone" => 0,
+            "www" => 0,
+            "sale" => 0,
+            "leads" => 128,
+            "forward" => 0,
+            "panel" => 0,
+            "api" => 2048,
+            "import" => 0,
+            "email" => 0,
+            "survey" => 0
+          }
+        }
+      },
+    "error" => nil
+    }.to_json
+  end
+
 end
 
