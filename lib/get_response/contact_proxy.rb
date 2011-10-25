@@ -33,6 +33,47 @@ module GetResponse
       contact
     end
 
+
+    # Get contacts subscription stats aggregated by date, campaign and contact’s origin.
+    # Example:
+    #
+    #   # get stats for any camapign, any time period
+    #   @contact_proxy.statistics
+    #
+    #   # get stats for selected camapigns, any time period
+    #   @contact_proxy.statistics(:campaigns => ["cmp1", "cmp2"])
+    #
+    #   # get stats for specified date
+    #   @contact_proxy.statistics(:created_on => {:at => Date.today})
+    #   @contact_proxy.statistics(:created_on => {:from => "2011-01-01", :to => "2011-12-30"})
+    #
+    # @param conditions [Hash] conditions for statistics query, empty by default
+    # @return [Hash] collection of aggregated statistics
+    def statistics(conditions = {})
+      if conditions[:created_on]
+        conditions[:created_on] = parse_date_conditions(conditions[:created_on])
+      end
+
+      @connection.send_request("get_contacts_subscription_stats", conditions)["result"]
+    end
+
+
+    protected
+
+
+    def parse_date_conditions(conditions)
+      parsed_conditions = {}
+      conditions.each_pair do |key, value|
+        if value.respond_to?(:strftime)
+          parsed_conditions[key.to_s.upcase] = value.strftime("%Y-%m-%d")
+        else
+          parsed_conditions[key.to_s.upcase] = value
+        end
+      end
+
+      parsed_conditions
+    end
+
   end
 
 end
