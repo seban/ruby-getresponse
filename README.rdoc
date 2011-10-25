@@ -160,3 +160,9 @@ Get confirmation message bodies
   # connection - existing connection
   connection.confirmation_bodies.all
   connection.confirmation_bodies.all(:language_code => {:equals => "en"})
+
+Get confirmation message subjects
+
+  # connection - existing connection
+  connection.confirmation_subjects.all
+  connection.confirmation_subjects.all(:language_code => {:equals => "en"})

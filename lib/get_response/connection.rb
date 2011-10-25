@@ -63,6 +63,14 @@ module GetResponse
     end
 
 
+    # Method returnx proxy to execute all confirmation subject related operations.
+    #
+    # @return [ConfirmationSubjectProxy]
+    def confirmation_subjects
+      @confirmation_subject_proxy ||= GetResponse::ConfirmationSubjectProxy.new(self)
+    end
+
+
     # Send request to JSON-RPC service.
     #
     # method::  String
