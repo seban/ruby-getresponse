@@ -154,3 +154,9 @@ Get subscriptions statistics
   campaign.subscription_statistics
   campaign.subscription_statistics(:created_on => {:at => Date.today})
   campaign.subscription_statistics(:created_on => {:from => "2011-01-01", :to => "2011-12-30"})
+
+Get confirmation message bodies
+
+  # connection - existing connection
+  connection.confirmation_bodies.all
+  connection.confirmation_bodies.all(:language_code => {:equals => "en"})

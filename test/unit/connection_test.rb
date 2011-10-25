@@ -51,6 +51,11 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_confirmation_bodies
+    assert_kind_of GetResponse::ConfirmationBodyProxy, @gr_connection.confirmation_bodies
+  end
+
+
   protected
 
 

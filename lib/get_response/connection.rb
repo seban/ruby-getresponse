@@ -55,6 +55,14 @@ module GetResponse
     end
 
 
+    # Method returnx proxy to execute all confirmation body related operations.
+    #
+    # @return [ConfirmationBodyProxy]
+    def confirmation_bodies
+      @confirmation_body_proxy ||= GetResponse::ConfirmationBodyProxy.new(self)
+    end
+
+
     # Send request to JSON-RPC service.
     #
     # method::  String
