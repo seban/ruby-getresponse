@@ -141,3 +141,9 @@ Get/set campaign's postal address
   # campaign_two - existing campaign
   postal_address = campaign_one.postal_address
   campaign_two.postal_address = postal_address
+
+
+To get contact openned message list with dates
+
+  # contact - existing contact
+  @contact.opens
