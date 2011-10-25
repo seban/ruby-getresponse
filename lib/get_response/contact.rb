@@ -64,8 +64,10 @@ module GetResponse
     #
     # net_attrs:: Hash
     def update(new_attrs)
-      new_attrs.each_pair { |key, value| self.send(key + "=", value) }
+      # Don't save immediately changes
+      @lazy_save = true
 
+      new_attrs.each_pair { |key, value| self.send(key + "=", value) }
       self.save
     end
 
@@ -127,6 +129,18 @@ module GetResponse
     def opens
       param = {"contact" => @id}
       @connection.send_request("get_contact_opens", param)["result"]
+    end
+
+
+    # Set contact name. Method can raise <tt>GetResponseError</tt> exception.
+    #
+    # @param value [String] new name value
+    # @return [String] new name value
+    def name=(value)
+      unless @lazy_save
+        @connection.send_request("set_contact_name", { "contact" => @id, "name" => value })["result"]
+      end
+      @name = value
     end
 
 

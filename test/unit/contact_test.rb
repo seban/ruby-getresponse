@@ -9,7 +9,7 @@ class ContactTest < Test::Unit::TestCase
     @gr_connection = GetResponse::Connection.new("my_secret_api_key")
     @mocked_response = mock
     mock(@mocked_response).code.any_times { 200 }
-    mock(Net::HTTP).start("api2.getresponse.com", 80) { @mocked_response }
+    mock(Net::HTTP).start("api2.getresponse.com", 80).any_times { @mocked_response }
   end
 
 
@@ -160,6 +160,24 @@ class ContactTest < Test::Unit::TestCase
   end
 
 
+  def test_set_name_exception
+    mock(@mocked_response).body { set_contact_name_exception_response }
+    contact = new_contact
+
+    exception = assert_raise(GetResponse::GetResponseError) { contact.name = "My new name" }
+    assert_equal "Missing contact", exception.message
+  end
+
+
+  def test_set_name
+    mock(@mocked_response).body { set_contact_response }
+    contact = new_contact
+    contact.name = "My new name"
+
+    assert_equal "My new name", contact.name
+  end
+
+
   protected
 
 
@@ -258,6 +276,22 @@ class ContactTest < Test::Unit::TestCase
         "message_id_1" => (Time.now - (1 * 24 * 60 * 60)).to_s,
         "message_id_2" => (Time.now - (2 * 24 * 60 * 60)).to_s
       },
+      "error" => nil
+    }.to_json
+  end
+
+
+  def set_contact_name_exception_response
+    {
+      "result" => nil,
+      "error" => "Missing contact"
+    }.to_json
+  end
+
+
+  def set_contact_response
+    {
+      "response" => { "updated" => "1"},
       "error" => nil
     }.to_json
   end
