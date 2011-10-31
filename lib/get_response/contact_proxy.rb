@@ -3,6 +3,8 @@ module GetResponse
   # Proxy class for contact related operations.
   class ContactProxy
 
+    include Conditions
+
     def initialize(connection)
       @connection = connection
     end
@@ -50,28 +52,9 @@ module GetResponse
     # @param conditions [Hash] conditions for statistics query, empty by default
     # @return [Hash] collection of aggregated statistics
     def statistics(conditions = {})
-      if conditions[:created_on]
-        conditions[:created_on] = parse_date_conditions(conditions[:created_on])
-      end
+      conditions = parse_conditions(conditions)
 
       @connection.send_request("get_contacts_subscription_stats", conditions)["result"]
-    end
-
-
-    protected
-
-
-    def parse_date_conditions(conditions)
-      parsed_conditions = {}
-      conditions.each_pair do |key, value|
-        if value.respond_to?(:strftime)
-          parsed_conditions[key.to_s.upcase] = value.strftime("%Y-%m-%d")
-        else
-          parsed_conditions[key.to_s.upcase] = value
-        end
-      end
-
-      parsed_conditions
     end
 
   end

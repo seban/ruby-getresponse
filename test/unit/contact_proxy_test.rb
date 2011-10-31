@@ -87,7 +87,8 @@ class GetResponse::ContactProxyTest < Test::Unit::TestCase
 
   def test_statistics_with_conditions_on_date_passed_as_a_string
     conditions = {:created_on => {:from => "2010-01-09", :to => "2011-10-01"}}
-    mock(@connection).send_request("get_contacts_subscription_stats", conditions) do
+    parsed_conditions = {:created_on => {"FROM" => "2010-01-09", "TO" => "2011-10-01"}}
+    mock(@connection).send_request("get_contacts_subscription_stats", parsed_conditions) do
       JSON.parse get_contact_subscription_stats_response
     end
     stats = @proxy.statistics(conditions)
