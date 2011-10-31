@@ -24,6 +24,7 @@ class SymbolOperator
 
 
   def evaluate(value)
+    warn "[DEPRECATION] evaluation of GetResponse operators is deprecated."
     { field.to_s => { gr_operator => value } }
   end
 
