@@ -1,6 +1,8 @@
 require 'rake/testtask'
 require 'rake/rdoctask'
 
+task :default => :test
+
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/*_test.rb'
