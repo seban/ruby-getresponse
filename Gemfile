@@ -1,0 +1,8 @@
+source "http://rubygems.org"
+
+gem "json", "~>1.4.0"
+gem "json_pure", "~>1.4.0"
+
+group :test do
+  gem "rr", "~>1.0"
+end
