@@ -166,3 +166,9 @@ Get confirmation message subjects
   # connection - existing connection
   connection.confirmation_subjects.all
   connection.confirmation_subjects.all(:language_code => {:equals => "en"})
+
+Get deleted contacts
+
+  contact_proxy.deleted
+  contact_proxy.deleted(:reason => "bounce")
+  campaign.deleted

@@ -57,6 +57,29 @@ module GetResponse
       @connection.send_request("get_contacts_subscription_stats", conditions)["result"]
     end
 
+
+    # Get deleted contacts.
+    # Example:
+    #
+    #   # get all deleted contacts
+    #   @contact_proxy.deleted
+    #
+    #   # get contacts deleted through api
+    #   @contact_proxy.deleted(:reason => "api")
+    #
+    #   # get deleted contacts from campaign
+    #   @contact_proxy.deleted(:campaigns => ["campaign_id"])
+    #
+    # @param conditions [Hash]
+    # @return [Array]
+    def deleted(conditions = {})
+      conditions = parse_conditions(conditions)
+      response = @connection.send_request("get_contacts_deleted", conditions)
+      response["result"].inject([]) do |contacts, resp|
+        contacts << Contact.new(resp[1].merge("id" => resp[0]), @connection)
+      end
+    end
+
   end
 
 end

@@ -25,6 +25,15 @@ module GetResponse
     end
 
 
+    # Get contacts deleted from this campaign
+    #
+    # @return [Array]
+    def deleted_contacts
+      @contact_proxy = ContactProxy.new(@connection)
+      @contact_proxy.deleted(:campaigns => [@id])
+    end
+
+
     # Get domain assigned to this campaign.
     #
     # returns:: GetResponse::Domain

@@ -107,6 +107,17 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_get_deleted_contacts
+    mock(@gr_connection).send_request('get_contacts_deleted', {:campaigns => [@campaign.id]}) { JSON.parse get_contacts_deleted_resp }
+    deleted_contacts = @campaign.deleted_contacts
+
+    assert_kind_of Array, deleted_contacts
+    assert deleted_contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
+    assert deleted_contacts.all? { |contact| contact.reason == "bounce" }
+    assert deleted_contacts.all? { |contact| !contact.deleted_on.nil? }
+  end
+
+
   protected
 
 

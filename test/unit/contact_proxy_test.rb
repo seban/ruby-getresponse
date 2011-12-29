@@ -96,4 +96,26 @@ class GetResponse::ContactProxyTest < Test::Unit::TestCase
     assert_kind_of Hash, stats
   end
 
+
+  def test_get_deleted_without_conditions
+    mock(@connection).send_request('get_contacts_deleted', {}) { JSON.parse get_contacts_deleted_resp }
+    deleted_contacts = @proxy.deleted
+
+    assert_kind_of Array, deleted_contacts
+    assert deleted_contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
+    assert deleted_contacts.all? { |contact| contact.reason == "bounce" }
+    assert deleted_contacts.all? { |contact| !contact.deleted_on.nil? }
+  end
+
+
+  def test_get_deleted_with_conditions
+    mock(@connection).send_request('get_contacts_deleted', {:reason => "bounce"}) { JSON.parse get_contacts_deleted_resp }
+    deleted_contacts = @proxy.deleted(:reason => "bounce")
+
+    assert_kind_of Array, deleted_contacts
+    assert deleted_contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
+    assert deleted_contacts.all? { |contact| contact.reason == "bounce" }
+    assert deleted_contacts.all? { |contact| !contact.deleted_on.nil? }
+  end
+
 end
