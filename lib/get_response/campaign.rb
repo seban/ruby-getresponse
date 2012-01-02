@@ -3,6 +3,7 @@ module GetResponse
   # GetResponse email campaign
   class Campaign
     attr_reader :id, :name, :from_name, :from_email, :reply_to_email, :created_on
+    attr_reader :from_field, :reply_to_field
 
 
     def initialize(params, connection)
@@ -112,11 +113,6 @@ module GetResponse
     end
 
 
-    def from_field
-      @from_field
-    end
-
-
     # Set object (without sending API 'set' request) level from field. If value is not
     # <tt>GetResponse::FromField</tt> method will try to fetch from field attributes through API.
     #
@@ -127,6 +123,20 @@ module GetResponse
         @from_field = value
       else
         @from_field = FromFieldsProxy.new(@connection).find(value)
+      end
+    end
+
+
+    # Set object (without sending API 'set' request) level reply to field. If value is not
+    # <tt>GetResponse::FromField</tt> method will try to fetch from field attributes through API.
+    #
+    # @param value [FromField]
+    # @return [GetResponse::FromField]
+    def reply_to_field=(value)
+      if value.instance_of? GetResponse::FromField
+        @reply_to_field = value
+      else
+        @reply_to_field = FromFieldsProxy.new(@connection).find(value)
       end
     end
 
