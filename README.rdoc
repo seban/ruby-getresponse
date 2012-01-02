@@ -184,3 +184,7 @@ Get single confirmation body by id
 Get single confirmation subject by id
 
   confirmation_subject_proxy.find("confirmation_subject_id")
+
+Create new campaign
+
+  connection.campaigns.create(new_campaign_attributes)

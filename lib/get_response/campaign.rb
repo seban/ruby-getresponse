@@ -4,6 +4,7 @@ module GetResponse
   class Campaign
     attr_reader :id, :name, :from_name, :from_email, :reply_to_email, :created_on
     attr_reader :from_field, :reply_to_field, :confirmation_body, :confirmation_subject
+    attr_accessor :description, :language_code
 
 
     def initialize(params, connection)
@@ -166,6 +167,25 @@ module GetResponse
       else
         @confirmation_subject = ConfirmationSubjectProxy.new(@connection).find(value)
       end
+    end
+
+
+    # Saves new campaign.
+    #
+    # @return [GetResponse::Campaign]
+    def save
+      attributes = {
+        "name" => name,
+        "description" => description,
+        "language_code" => language_code,
+        "from_field" => from_field.id,
+        "reply_to_field" => reply_to_field.id,
+        "confirmation_subject" => confirmation_subject.id,
+        "confirmation_body" => confirmation_body.id
+      }
+      save_result = @connection.send_request("add_campaign", attributes)["result"]
+      @id = save_result["CAMPAIGN_ID"]
+      self
     end
 
   end
