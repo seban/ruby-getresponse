@@ -173,6 +173,26 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_set_confirmation_subject_with_confirmation_subject
+    confirmation_subject = GetResponse::ConfirmationSubject.new("content" => "Confirm",
+      "language_code" => "en", "id" => "1001")
+    @campaign.confirmation_subject = confirmation_subject
+
+    assert_kind_of GetResponse::ConfirmationSubject, @campaign.confirmation_subject
+    assert_equal "1001", @campaign.confirmation_subject.id
+  end
+
+
+  def test_set_confirmation_subject_with_string
+    params = {"confirmation_subject" => "1001"}
+    mock(@gr_connection).send_request("get_confirmation_subject", params) { get_confirmation_subject_response }
+    @campaign.confirmation_subject = "1001"
+
+    assert_kind_of GetResponse::ConfirmationSubject, @campaign.confirmation_subject
+    assert_equal "1001", @campaign.confirmation_subject.id
+  end
+
+
   protected
 
 

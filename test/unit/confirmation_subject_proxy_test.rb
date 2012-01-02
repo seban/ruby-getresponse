@@ -27,6 +27,25 @@ class GetResponse::ConfirmationSubjectProxyTest < Test::Unit::TestCase
   end
 
 
+  def test_find_by_id_with_good_id
+    params = {"confirmation_subject" => "1001"}
+    mock(@connection).send_request("get_confirmation_subject", params) { get_confirmation_subject_response }
+    subject = @proxy.find("1001")
+
+    assert_kind_of GetResponse::ConfirmationSubject, subject
+    assert_equal "1001", subject.id
+  end
+
+
+  def find_by_id_with_bad_id
+    params = {"confirmation_subject" => "bad_id"}
+    mock(@connection).send_request("get_confirmation_subject", params) { {"result" => {}, "error" => nil} }
+
+    exception = assert_raise(GetResponse::GetResponseError) { @proxy.find("bad_id") }
+    assert_equal "Confirmation subject with id 'bad_id' not found.", exception.message
+  end
+
+
   protected
 
 

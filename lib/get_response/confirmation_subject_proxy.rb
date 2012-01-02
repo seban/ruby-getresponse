@@ -27,6 +27,20 @@ module GetResponse
       end
     end
 
+
+    # Get single confirmation subject based on its <tt>id</tt>. Method can raise
+    #<tt>GetResposne::GetResponseError</tt> exception if no confirmation subject is found.
+    #
+    # @param subject_id [String]
+    # @return [GetResponse::ConfirmationSubject]
+    def find(subject_id)
+      params = {"confirmation_subject" => subject_id}
+      resp = @connection.send_request("get_confirmation_subject", params)["result"]
+      raise GetResponseError.new "Confirmation subject with id '#{subject_id}' not found." if resp.empty?
+      subject_attrs = resp.values[0].merge("id" => resp.keys.first)
+      ConfirmationSubject.new subject_attrs
+    end
+
   end
 
 end

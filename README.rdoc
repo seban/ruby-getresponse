@@ -176,3 +176,11 @@ Get deleted contacts
 Get single field form by id
 
   from_field_proxy.find("from_field_id")
+
+Get single confirmation body by id
+
+  confirmation_body_proxy.find("confirmation_body_id")
+
+Get single confirmation subject by id
+
+  confirmation_subject_proxy.find("confirmation_subject_id")

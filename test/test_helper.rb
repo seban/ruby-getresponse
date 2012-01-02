@@ -286,5 +286,18 @@ class Test::Unit::TestCase
     }
   end
 
+
+  def get_confirmation_subject_response
+    {
+      "result" => {
+        "1001" => {
+          "content" => "Please confirm subscription",
+          "language_code" => "en"
+        },
+      "error" => nil
+      }
+    }
+  end
+
 end
 
