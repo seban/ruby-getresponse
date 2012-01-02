@@ -111,6 +111,25 @@ module GetResponse
       @contact_proxy.statistics(conditions.merge(:campaigns => [@id]))
     end
 
+
+    def from_field
+      @from_field
+    end
+
+
+    # Set object (without sending API 'set' request) level from field. If value is not
+    # <tt>GetResponse::FromField</tt> method will try to fetch from field attributes through API.
+    #
+    # @param value [FromField]
+    # @return [GetResponse::FromField]
+    def from_field=(value)
+      if value.instance_of? GetResponse::FromField
+        @from_field = value
+      else
+        @from_field = FromFieldsProxy.new(@connection).find(value)
+      end
+    end
+
   end
 
 end

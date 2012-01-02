@@ -118,6 +118,23 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_set_from_field_with_from_field_object
+    @campaign.from_field = GetResponse::FromField.new("name" => "text", "email" => "test@email.cc",
+      "created_on" => "2010-12-23 00:00:00", "id" => "234")
+
+    assert_kind_of GetResponse::FromField, @campaign.from_field
+  end
+
+
+  def test_set_from_field_with_string
+    mock(@gr_connection).send_request("get_account_from_field", {"account_from_field" => '1024'}) { get_account_from_fields_resp }
+    @campaign.from_field = "1024"
+
+    assert_kind_of GetResponse::FromField, @campaign.from_field
+    assert_equal "1024", @campaign.from_field.id
+  end
+
+
   protected
 
 

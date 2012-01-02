@@ -172,3 +172,7 @@ Get deleted contacts
   contact_proxy.deleted
   contact_proxy.deleted(:reason => "bounce")
   campaign.deleted
+
+Get single field form by id
+
+  from_field_proxy.find("from_field_id")
