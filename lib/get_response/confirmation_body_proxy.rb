@@ -28,6 +28,20 @@ module GetResponse
       end
     end
 
+
+    # Get single confirmation body based on its <tt>id</tt>. Method can raise
+    #<tt>GetResposne::GetResponseError</tt> exception if no confirmation body is found.
+    #
+    # @param body_id [String]
+    # @return [GetResponse::ConfirmationBody]
+    def find(body_id)
+      params = {"confirmation_body" => body_id}
+      resp = @connection.send_request("get_confirmation_body", params)["result"]
+      raise GetResponseError.new "Confirmation body with id '#{body_id}' not found." if resp.empty?
+      body_attrs = resp.values[0].merge("id" => resp.keys.first)
+      ConfirmationBody.new body_attrs
+    end
+
   end
 
 end

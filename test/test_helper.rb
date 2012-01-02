@@ -272,5 +272,19 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+  def confirmation_body_response
+    {
+      "result" => {
+        "1001" => {
+          "plain" => "Please click to confirm ...",
+          "html" => "<p>Please click to confirm ...",
+          "language_code" => "en"
+        }
+      },
+      "error" => nil
+    }
+  end
+
 end
 

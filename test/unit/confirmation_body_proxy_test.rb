@@ -27,6 +27,27 @@ class GetResponse::ConfirmationBodyProxyTest < Test::Unit::TestCase
   end
 
 
+  def test_find_confirmation_body_with_good_id
+    mock(@connection).send_request("get_confirmation_body", {"confirmation_body" => "1001"}) do
+      confirmation_body_response
+    end
+    body = @proxy.find("1001")
+
+    assert_kind_of GetResponse::ConfirmationBody, body
+    assert_equal "1001", body.id
+  end
+
+
+  def test_find_confirmation_body_with_bad_id
+    mock(@connection).send_request("get_confirmation_body", {"confirmation_body" => "bad_id"}) do
+      {"result"=>{}, "error"=>nil}
+    end
+
+    exception = assert_raise(GetResponse::GetResponseError) { @proxy.find("bad_id") }
+    assert_equal "Confirmation body with id 'bad_id' not found.", exception.message
+  end
+
+
   protected
 
 

@@ -3,7 +3,7 @@ module GetResponse
   # GetResponse email campaign
   class Campaign
     attr_reader :id, :name, :from_name, :from_email, :reply_to_email, :created_on
-    attr_reader :from_field, :reply_to_field
+    attr_reader :from_field, :reply_to_field, :confirmation_body
 
 
     def initialize(params, connection)
@@ -137,6 +137,20 @@ module GetResponse
         @reply_to_field = value
       else
         @reply_to_field = FromFieldsProxy.new(@connection).find(value)
+      end
+    end
+
+
+    # Set object (without sending API 'set' request) level confirmation body. If value is not
+    # <tt>GetResponse::ConfirmationBody</tt> instance method will try to fetch attributes through API.
+    #
+    # @param value [GetResponse::ConfirmationBody]
+    # @return [GetResponse::ConfirmationBody]
+    def confirmation_body=(value)
+      if value.instance_of? GetResponse::ConfirmationBody
+        @confirmation_body = value
+      else
+        @confirmation_body = ConfirmationBodyProxy.new(@connection).find(value)
       end
     end
 

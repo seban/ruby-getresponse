@@ -152,6 +152,27 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_set_confirmation_body_with_confirmation_body
+    confirmation_body = GetResponse::ConfirmationBody.new("plain" => "plain", "html" => "<p>html</p>",
+      "language_code" => "en", "id" => "1001")
+    @campaign.confirmation_body = confirmation_body
+
+    assert_kind_of GetResponse::ConfirmationBody, @campaign.confirmation_body
+    assert_equal confirmation_body.id, @campaign.confirmation_body.id
+  end
+
+
+  def test_set_confirmation_body_with_string
+    mock(@gr_connection).send_request("get_confirmation_body", {"confirmation_body" => "1001"}) do
+      confirmation_body_response
+    end
+    @campaign.confirmation_body = "1001"
+
+    assert_kind_of GetResponse::ConfirmationBody, @campaign.confirmation_body
+    assert_equal "1001", @campaign.confirmation_body.id
+  end
+
+
   protected
 
 
