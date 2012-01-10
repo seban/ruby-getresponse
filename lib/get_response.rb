@@ -24,3 +24,5 @@ GetResponse.autoload :ConfirmationBodyProxy, "get_response/confirmation_body_pro
 GetResponse.autoload :ConfirmationSubject, "get_response/confirmation_subject"
 GetResponse.autoload :ConfirmationSubjectProxy, "get_response/confirmation_subject_proxy"
 GetResponse.autoload :Conditions, "get_response/conditions"
+GetResponse.autoload :LinksProxy, "get_response/links_proxy"
+GetResponse.autoload :Link, "get_response/link"
