@@ -33,5 +33,14 @@ module GetResponse
       resp = @connection.send_request("get_message_stats", :message => @id)
       resp["result"]
     end
+
+
+    # Fetch links embedded in this message
+    #
+    # @return [Array] collection of links
+    def links
+      @connection.links.all("messages" => [@id])
+    end
+
   end
 end

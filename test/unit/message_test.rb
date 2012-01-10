@@ -26,4 +26,13 @@ class GetResponse::MessageTest < Test::Unit::TestCase
     assert_equal true, stats.values.all? { |val| val.instance_of? Hash }
   end
 
+
+  def test_links
+    mock(@connection).send_request("get_links", {"messages" => [@message.id]}) { get_links_response }
+    links = @message.links
+
+    assert_kind_of Array, links
+    assert links.all? { |link| link.instance_of?(GetResponse::Link) }
+  end
+
 end
