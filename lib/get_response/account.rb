@@ -29,8 +29,7 @@ module GetResponse
     # @return [Blacklist]
     def blacklist
       entries = @connection.send_request("get_account_blacklist")["result"].values
-      entries << @connection
-      GetResponse::Blacklist.new(*entries)
+      GetResponse::Blacklist.new(entries, @connection, self)
     end
 
   end

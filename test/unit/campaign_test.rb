@@ -193,6 +193,15 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_get_blacklist
+    params = {"campaign" => @campaign.id}
+    mock(@gr_connection).send_request("get_campaign_blacklist", params) { get_blacklist_response }
+    blacklist = @campaign.blacklist
+
+    assert_kind_of GetResponse::Blacklist, blacklist
+  end
+
+
   protected
 
 

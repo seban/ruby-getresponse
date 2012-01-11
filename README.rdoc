@@ -197,3 +197,7 @@ Fetching links embedded in messages
 Fetching blacklisted addresses for account
 
   account.blacklist
+
+Fetching blacklisted addresses for campaign
+
+  campaign.blacklist

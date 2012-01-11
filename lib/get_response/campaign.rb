@@ -188,6 +188,16 @@ module GetResponse
       self
     end
 
+
+    # Get the entire blacklisted emails list for this campaign.
+    #
+    # @return [GetResponse::Blacklist]
+    def blacklist
+      params = {"campaign" => @id}
+      entries = @connection.send_request("get_campaign_blacklist", params)["result"].values
+      GetResponse::Blacklist.new(entries, @connection, self)
+    end
+
   end
 
 end
