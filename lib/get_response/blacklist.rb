@@ -1,7 +1,13 @@
+require 'forwardable'
+
 module GetResponse
 
   # Class represents list of blacklisted email addresses.
   class Blacklist
+    extend ::Forwardable
+
+    def_delegator :@entries, :size
+    def_delegator :@entries, :empty?
 
     # To instantiate new blacklist object use this method. Blacklist may contain addresses connected
     # with GetResponse account or with one particular campaign.
