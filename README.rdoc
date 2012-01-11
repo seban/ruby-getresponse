@@ -188,3 +188,8 @@ Get single confirmation subject by id
 Create new campaign
 
   connection.campaigns.create(new_campaign_attributes)
+
+Fetching links embedded in messages
+
+  connection.links.all
+  message.links
