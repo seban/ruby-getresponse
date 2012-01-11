@@ -193,3 +193,7 @@ Fetching links embedded in messages
 
   connection.links.all
   message.links
+
+Fetching blacklisted addresses for account
+
+  account.blacklist

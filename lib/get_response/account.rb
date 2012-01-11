@@ -23,5 +23,15 @@ module GetResponse
       DomainProxy.new(@connection)
     end
 
+
+    # Get the entire blacklisted emails list for this account.
+    #
+    # @return [Blacklist]
+    def blacklist
+      entries = @connection.send_request("get_account_blacklist")["result"].values
+      entries << @connection
+      GetResponse::Blacklist.new(*entries)
+    end
+
   end
 end

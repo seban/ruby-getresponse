@@ -26,3 +26,4 @@ GetResponse.autoload :ConfirmationSubjectProxy, "get_response/confirmation_subje
 GetResponse.autoload :Conditions, "get_response/conditions"
 GetResponse.autoload :LinksProxy, "get_response/links_proxy"
 GetResponse.autoload :Link, "get_response/link"
+GetResponse.autoload :Blacklist, "get_response/blacklist"

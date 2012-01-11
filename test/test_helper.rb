@@ -320,5 +320,16 @@ class Test::Unit::TestCase
     }
   end
 
+
+  def get_blacklist_response
+    {
+      "result" => {
+        "my_contact_1@emailaddress.com" => "2010-01-01 00:00:00",
+        "my_contact_2@emailaddress.com" => "2010-01-01 00:00:00"
+      },
+      "error" => nil
+    }
+  end
+
 end
 
