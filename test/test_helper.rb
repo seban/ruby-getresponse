@@ -299,5 +299,37 @@ class Test::Unit::TestCase
     }
   end
 
+
+  def get_links_response
+    {
+      "result" => {
+        "1024" => {
+          "message" => "oxc",
+          "name" => "My Home Page",
+          "url" => "http://myhomepage.com",
+          "clicks" => 32
+        },
+        "1025" => {
+          "message" => "oxd",
+          "name" => "My product 1",
+          "url" => "http://myhomepage.com?product=1",
+          "clicks" => 16
+        }
+      },
+      "error" => nil
+    }
+  end
+
+
+  def get_blacklist_response
+    {
+      "result" => {
+        "my_contact_1@emailaddress.com" => "2010-01-01 00:00:00",
+        "my_contact_2@emailaddress.com" => "2010-01-01 00:00:00"
+      },
+      "error" => nil
+    }
+  end
+
 end
 

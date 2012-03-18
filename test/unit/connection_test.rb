@@ -61,6 +61,11 @@ class GetResponse::ConnectionTest < Test::Unit::TestCase
   end
 
 
+  def test_links
+    assert_kind_of GetResponse::LinksProxy, @gr_connection.links
+  end
+
+
   protected
 
 

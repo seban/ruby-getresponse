@@ -95,6 +95,14 @@ module GetResponse
     end
 
 
+    # Method return proxy to execute all links related operations.
+    #
+    # @return [LinksProxy]
+    def links
+      @links_proxy ||= LinksProxy.new(self)
+    end
+
+
     protected
 
 
