@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ruby-getresponse by seban</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Ruby-getresponse</h1>
+<p>Wrapper for GetResponse JSON-RPC service</p>
+        <p class="view"><a href="https://github.com/seban/ruby-getresponse">View the Project on GitHub <small>seban/ruby-getresponse</small></a></p>
+        <ul>
+          <li><a href="https://github.com/seban/ruby-getresponse/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/seban/ruby-getresponse/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/seban/ruby-getresponse">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>GetResponse</h1>
+
+<p>Wrapper for GetResponse API.
+Class interfaces from version 0.2 has changed breaking backward compatibility.
+Be sure to check changes before update.</p>
+
+<h2>Usage</h2>
+
+<p>Just add to you Gemfile</p>
+
+<p><code>gem "getresponse", :require =&gt; "get_response"</code></p>
+
+<p>Test connection to GetResponse API.</p>
+
+<p><code>gr_connection = GetResponse::Connection.new("my_secret_api")
+   gr_connection.ping</code></p>
+
+<p>Get info about account:</p>
+
+<p><code>gr_connection.account</code></p>
+
+<p>Get your active campaigns.</p>
+
+<p><code>gr_connection.campaigns.all</code></p>
+
+<p>You can operate on your contacts quite the same way as on ActiveRecord objects. Before any operation
+on contacts you must connect to API.</p>
+
+<p>Get all contacts:</p>
+
+<p><code>gr_connection.contacts.all</code></p>
+
+<p>Create new contact:</p>
+
+<p><code># with connection
+   gr_connection.contacts.create("name" =&gt; "John Doe", "email" =&gt; "john.d@somewhere.com",
+     "campaign" =&gt; "campaignId", "customs" =&gt; { "source" =&gt; "mainpage" })</code></p>
+
+<p>Update your contact:</p>
+
+<p>`# with connection
+   # contact - existing contact
+   contact.update("name" =&gt; "John Thenewname")</p>
+
+<p># or
+   contact.name = "John Thenewname"
+   contact.save`</p>
+
+<p>Delete contact:</p>
+
+<p><code># with connection
+   # contact - existing contact
+   contact.destroy</code></p>
+
+<p>Move contact between campaigns:</p>
+
+<p><code># with connection
+   # contact - existing contact
+   # zXy - existing campaign
+   contact.move("zXy")</code></p>
+
+<p>Get geoip location</p>
+
+<p><code># with connection
+   # contact - existing contact
+   contact.geoip</code></p>
+
+<p>Set contact cycle</p>
+
+<p><code># with connection
+   # contact - existing contact
+   contact.set_cycle(5)</code></p>
+
+<p>Get custom attributes</p>
+
+<p><code># with connection
+   # contact - existing contact
+   contact.customs
+   =&gt; { "attr_name" =&gt; "attr_value" }</code></p>
+
+<p>Get account from fields</p>
+
+<p><code># with account
+   # account - existing account
+   account.from_fields.all
+   =&gt; [&lt;FromField: xcv&gt;]</code></p>
+
+<p>Add account from field</p>
+
+<p><code># with account
+   # account = existing account
+   account.from_fields.create("name" =&gt; "My new name", "email" =&gt; "my_new_email@foo.bar")
+   =&gt; #&lt;GetResponse::FromField:0xb7727010 ... &gt;</code></p>
+
+<p>Get account domains</p>
+
+<p><code># with account
+   # account - existing account
+   account.domains.all</code></p>
+
+<p>Get campaign domain</p>
+
+<p><code># with campaign
+   # campaign - existing campaign
+   campaign.domain</code></p>
+
+<p>Set campaign domain</p>
+
+<p><code>domain = account.domains.first
+  campaign.domain = domain</code></p>
+
+<p>Get campaign messages</p>
+
+<p><code># with campaign
+   # campaign - existing campaign
+   messages = campaign.messages
+   newsletters = campaign.messages(:type =&gt; "newsletter")</code></p>
+
+<p>Get all messages</p>
+
+<p><code># with connection
+   connection.messages.all</code></p>
+
+<p>Get message contents</p>
+
+<p><code># with message
+   # message - existing messsage
+   message.contents["plain"]
+   message.contents["html"]</code></p>
+
+<p>Get stats of message</p>
+
+<p><code># message - existing message
+   message.stats</code></p>
+
+<p>Delete message</p>
+
+<p><code># message - existing message
+   message.destroy</code></p>
+
+<p>Get/set campaign's postal address</p>
+
+<p><code># campaign_one - existing campaign
+   # campaign_two - existing campaign
+   postal_address = campaign_one.postal_address
+   campaign_two.postal_address = postal_address</code></p>
+
+<p>To get contact openned message list with dates</p>
+
+<p><code># contact - existing contact
+   @contact.opens</code></p>
+
+<p>Get subscriptions statistics</p>
+
+<p><code># campaign - existing campaign
+   campaign.subscription_statistics
+   campaign.subscription_statistics(:created_on =&gt; {:at =&gt; Date.today})
+   campaign.subscription_statistics(:created_on =&gt; {:from =&gt; "2011-01-01", :to =&gt; "2011-12-30"})</code></p>
+
+<p>Get confirmation message bodies</p>
+
+<p><code># connection - existing connection
+   connection.confirmation_bodies.all
+   connection.confirmation_bodies.all(:language_code =&gt; {:equals =&gt; "en"})</code></p>
+
+<p>Get confirmation message subjects</p>
+
+<p><code># connection - existing connection
+   connection.confirmation_subjects.all
+   connection.confirmation_subjects.all(:language_code =&gt; {:equals =&gt; "en"})</code></p>
+
+<p>Get deleted contacts</p>
+
+<p><code>contact_proxy.deleted
+   contact_proxy.deleted(:reason =&gt; "bounce")
+   campaign.deleted</code></p>
+
+<p>Get single field form by id</p>
+
+<p><code>from_field_proxy.find("from_field_id")</code></p>
+
+<p>Get single confirmation body by id</p>
+
+<p><code>confirmation_body_proxy.find("confirmation_body_id")</code></p>
+
+<p>Get single confirmation subject by id</p>
+
+<p><code>confirmation_subject_proxy.find("confirmation_subject_id")</code></p>
+
+<p>Create new campaign</p>
+
+<p><code>connection.campaigns.create(new_campaign_attributes)</code></p>
+
+<p>Fetching links embedded in messages</p>
+
+<p><code>connection.links.all
+   message.links</code></p>
+
+<p>Fetching blacklisted addresses for account</p>
+
+<p><code>account.blacklist</code></p>
+
+<p>Fetching blacklisted addresses for campaign</p>
+
+<p><code>campaign.blacklist</code></p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/seban">seban</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
