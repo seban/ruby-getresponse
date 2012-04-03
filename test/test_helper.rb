@@ -184,5 +184,153 @@ class Test::Unit::TestCase
     }.to_json
   end
 
+
+  def get_contact_subscription_stats_response
+    {
+      "result" => {
+        "2010-01-01" => {
+          "n3i" => {
+            "iphone" => 0,
+            "www" => 32,
+            "sale" => 64,
+            "leads" => 2,
+            "forward" => 0,
+            "panel" => 4,
+            "api" => 128,
+            "import" => 0,
+            "email" => 16,
+            "survey" => 1
+          },
+          "pou" => {
+            "iphone" => 8,
+            "www" => 0,
+            "sale" => 0,
+            "leads" => 64,
+            "forward" => 0,
+            "panel" => 0,
+            "api" => 512,
+            "import" => 16,
+            "email" => 0,
+            "survey" => 0
+          }
+        },
+        "2010-01-02" => {
+          "n3i" => {
+            "iphone" => 0,
+            "www" => 64,
+            "sale" => 128,
+            "leads" => 8,
+            "forward" => 1,
+            "panel" => 8,
+            "api" => 1024,
+            "import" => 0,
+            "email" => 2,
+            "survey" => 8
+          },
+          "pou" => {
+            "iphone" => 0,
+            "www" => 0,
+            "sale" => 0,
+            "leads" => 128,
+            "forward" => 0,
+            "panel" => 0,
+            "api" => 2048,
+            "import" => 0,
+            "email" => 0,
+            "survey" => 0
+          }
+        }
+      },
+    "error" => nil
+    }.to_json
+  end
+
+
+  def get_contacts_deleted_resp
+    {"result" => {
+      "45bGE" => {
+        "name"=> "Sebastian N.",
+        "created_on"=>"2010-04-06 07:43:32",
+        "deleted_on"=>"2010-04-06 07:43:32",
+        "cycle_day"=>nil,
+        "campaign"=>"ZyX",
+        "origin"=>"api",
+        "ip"=>nil,
+        "email"=>"sebastian@somehost.com",
+        "reason"=>'bounce'},
+      "55bGE" => {
+        "name"=> "Sebastian N2.",
+        "created_on"=>"2010-04-06 07:44:32",
+        "deleted_on"=>"2010-04-06 07:43:32",
+        "cycle_day"=>nil,
+        "campaign"=>"ZyX",
+        "origin"=>"api",
+        "ip"=>nil,
+        "email"=>"sebastian2@somehost.com",
+        "reason"=>"bounce"}
+    },
+     "error" => nil
+    }.to_json
+  end
+
+
+  def confirmation_body_response
+    {
+      "result" => {
+        "1001" => {
+          "plain" => "Please click to confirm ...",
+          "html" => "<p>Please click to confirm ...",
+          "language_code" => "en"
+        }
+      },
+      "error" => nil
+    }
+  end
+
+
+  def get_confirmation_subject_response
+    {
+      "result" => {
+        "1001" => {
+          "content" => "Please confirm subscription",
+          "language_code" => "en"
+        },
+      "error" => nil
+      }
+    }
+  end
+
+
+  def get_links_response
+    {
+      "result" => {
+        "1024" => {
+          "message" => "oxc",
+          "name" => "My Home Page",
+          "url" => "http://myhomepage.com",
+          "clicks" => 32
+        },
+        "1025" => {
+          "message" => "oxd",
+          "name" => "My product 1",
+          "url" => "http://myhomepage.com?product=1",
+          "clicks" => 16
+        }
+      },
+      "error" => nil
+    }
+  end
+
+
+  def get_blacklist_response
+    {
+      "result" => {
+        "my_contact_1@emailaddress.com" => "2010-01-01 00:00:00",
+        "my_contact_2@emailaddress.com" => "2010-01-01 00:00:00"
+      },
+      "error" => nil
+    }
+  end
+
 end
 

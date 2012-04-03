@@ -3,6 +3,8 @@ module GetResponse
   # Proxy class for contact related operations.
   class ContactProxy
 
+    include Conditions
+
     def initialize(connection)
       @connection = connection
     end
@@ -31,6 +33,51 @@ module GetResponse
       contact = GetResponse::Contact.new(attrs, @connection)
       contact.save
       contact
+    end
+
+
+    # Get contacts subscription stats aggregated by date, campaign and contact’s origin.
+    # Example:
+    #
+    #   # get stats for any camapign, any time period
+    #   @contact_proxy.statistics
+    #
+    #   # get stats for selected camapigns, any time period
+    #   @contact_proxy.statistics(:campaigns => ["cmp1", "cmp2"])
+    #
+    #   # get stats for specified date
+    #   @contact_proxy.statistics(:created_on => {:at => Date.today})
+    #   @contact_proxy.statistics(:created_on => {:from => "2011-01-01", :to => "2011-12-30"})
+    #
+    # @param conditions [Hash] conditions for statistics query, empty by default
+    # @return [Hash] collection of aggregated statistics
+    def statistics(conditions = {})
+      conditions = parse_conditions(conditions)
+
+      @connection.send_request("get_contacts_subscription_stats", conditions)["result"]
+    end
+
+
+    # Get deleted contacts.
+    # Example:
+    #
+    #   # get all deleted contacts
+    #   @contact_proxy.deleted
+    #
+    #   # get contacts deleted through api
+    #   @contact_proxy.deleted(:reason => "api")
+    #
+    #   # get deleted contacts from campaign
+    #   @contact_proxy.deleted(:campaigns => ["campaign_id"])
+    #
+    # @param conditions [Hash]
+    # @return [Array]
+    def deleted(conditions = {})
+      conditions = parse_conditions(conditions)
+      response = @connection.send_request("get_contacts_deleted", conditions)
+      response["result"].inject([]) do |contacts, resp|
+        contacts << Contact.new(resp[1].merge("id" => resp[0]), @connection)
+      end
     end
 
   end

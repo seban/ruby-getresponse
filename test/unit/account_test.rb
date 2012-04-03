@@ -30,6 +30,16 @@ class AccountTest < Test::Unit::TestCase
   end
 
 
+  def test_blacklist
+    @connection = connection
+    @account = new_account({}, @connection)
+    mock(@connection).send_request("get_account_blacklist") { get_blacklist_response }
+    blacklist = @account.blacklist
+
+    assert_kind_of GetResponse::Blacklist, blacklist
+  end
+
+
   protected
 
 

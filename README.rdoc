@@ -6,6 +6,10 @@ Be sure to check changes before update.
 
 == Usage
 
+Just add to you Gemfile
+
+  gem "getresponse", :require => "get_response"
+
 Test connection to GetResponse API.
 
   gr_connection = GetResponse::Connection.new("my_secret_api")
@@ -147,3 +151,57 @@ To get contact openned message list with dates
 
   # contact - existing contact
   @contact.opens
+
+Get subscriptions statistics
+
+  # campaign - existing campaign
+  campaign.subscription_statistics
+  campaign.subscription_statistics(:created_on => {:at => Date.today})
+  campaign.subscription_statistics(:created_on => {:from => "2011-01-01", :to => "2011-12-30"})
+
+Get confirmation message bodies
+
+  # connection - existing connection
+  connection.confirmation_bodies.all
+  connection.confirmation_bodies.all(:language_code => {:equals => "en"})
+
+Get confirmation message subjects
+
+  # connection - existing connection
+  connection.confirmation_subjects.all
+  connection.confirmation_subjects.all(:language_code => {:equals => "en"})
+
+Get deleted contacts
+
+  contact_proxy.deleted
+  contact_proxy.deleted(:reason => "bounce")
+  campaign.deleted
+
+Get single field form by id
+
+  from_field_proxy.find("from_field_id")
+
+Get single confirmation body by id
+
+  confirmation_body_proxy.find("confirmation_body_id")
+
+Get single confirmation subject by id
+
+  confirmation_subject_proxy.find("confirmation_subject_id")
+
+Create new campaign
+
+  connection.campaigns.create(new_campaign_attributes)
+
+Fetching links embedded in messages
+
+  connection.links.all
+  message.links
+
+Fetching blacklisted addresses for account
+
+  account.blacklist
+
+Fetching blacklisted addresses for campaign
+
+  campaign.blacklist

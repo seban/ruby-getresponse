@@ -55,6 +55,22 @@ module GetResponse
     end
 
 
+    # Method returnx proxy to execute all confirmation body related operations.
+    #
+    # @return [ConfirmationBodyProxy]
+    def confirmation_bodies
+      @confirmation_body_proxy ||= GetResponse::ConfirmationBodyProxy.new(self)
+    end
+
+
+    # Method returnx proxy to execute all confirmation subject related operations.
+    #
+    # @return [ConfirmationSubjectProxy]
+    def confirmation_subjects
+      @confirmation_subject_proxy ||= GetResponse::ConfirmationSubjectProxy.new(self)
+    end
+
+
     # Send request to JSON-RPC service.
     #
     # method::  String
@@ -76,6 +92,14 @@ module GetResponse
         raise GetResponse::GetResponseError.new(response["error"])
       end
       response
+    end
+
+
+    # Method return proxy to execute all links related operations.
+    #
+    # @return [LinksProxy]
+    def links
+      @links_proxy ||= LinksProxy.new(self)
     end
 
 
