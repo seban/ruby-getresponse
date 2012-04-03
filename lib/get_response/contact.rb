@@ -37,13 +37,13 @@ module GetResponse
     def attributes
       attrs = {
         "campaign" => @campaign,
-        "name" => @name,
         "email" => @email
       }
 
       attrs["ip"] = @ip if @ip
       attrs["cycle_day"] = @cycle_day if @cycle_day
       attrs["customs"] = @customs if @customs
+      attrs["name"] = @name if @name
 
       attrs
     end
