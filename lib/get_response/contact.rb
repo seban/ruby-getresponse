@@ -2,7 +2,7 @@ module GetResponse
 
   # GetResponse contact
   class Contact
-    attr_accessor :campaign, :name, :email, :cycle_day, :ip, :customs, :created_on, :deleted_on, :reason
+    attr_accessor :campaign, :name, :email, :cycle_day, :ip, :customs, :created_on, :deleted_on, :reason, :duplicated
     attr_reader :id
 
 
@@ -18,6 +18,7 @@ module GetResponse
       @deleted_on = params["deleted_on"]
       @reason = params["reason"]
       @connection = connection
+      @duplicated = false
     end
 
 
@@ -27,6 +28,7 @@ module GetResponse
     # returns:: Boolean
     def save
       result = @connection.send_request(:add_contact, self.attributes)
+      self.duplicated = true unless result["result"]["duplicated"].nil?
       result["error"].nil?
     end
 
