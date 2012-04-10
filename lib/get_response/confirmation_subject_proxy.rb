@@ -37,7 +37,7 @@ module GetResponse
       params = {"confirmation_subject" => subject_id}
       resp = @connection.send_request("get_confirmation_subject", params)["result"]
       raise GetResponseError.new "Confirmation subject with id '#{subject_id}' not found." if resp.empty?
-      subject_attrs = resp.values[0].merge("id" => resp.keys.first)
+      subject_attrs = resp[subject_id.to_s].merge("id" => subject_id.to_s)
       ConfirmationSubject.new subject_attrs
     end
 
