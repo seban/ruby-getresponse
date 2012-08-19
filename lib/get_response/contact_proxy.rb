@@ -19,10 +19,7 @@ module GetResponse
     # returns:: Array of GetResponse::Contact
     def all(conditions = {})
       response = @connection.send_request("get_contacts", conditions)
-
-      response["result"].inject([]) do |contacts, resp|
-        contacts << Contact.new(resp[1].merge("id" => resp[0]), @connection)
-      end
+      build_contacts(response["result"])
     end
 
 
@@ -75,8 +72,18 @@ module GetResponse
     def deleted(conditions = {})
       conditions = parse_conditions(conditions)
       response = @connection.send_request("get_contacts_deleted", conditions)
-      response["result"].inject([]) do |contacts, resp|
-        contacts << Contact.new(resp[1].merge("id" => resp[0]), @connection)
+      build_contacts(response["result"])
+    end
+
+    private
+
+    # Build collection of <tt>Contact</tt> objects from service response.
+    #
+    # @param raw_contacts [Array] of Hashes parsed from GetResponse API response
+    # @return [Array]
+    def build_contacts(raw_contacts)
+      raw_contacts.map do |raw_contact|
+        Contact.new(raw_contact[1].merge("id" => raw_contact[0]), @connection)
       end
     end
 
