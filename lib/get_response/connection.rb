@@ -46,6 +46,12 @@ module GetResponse
       @contact_proxy ||= GetResponse::ContactProxy.new(self)
     end
 
+    # Method returns proxy to execute all segment related operations.
+    #
+    # returns:: GetResponse::SegmentProxy
+    def segments
+      @segments_proxy ||= GetResponse::SegmentsProxy.new(self)
+    end
 
     # Method returns proxy to execute all message related operations.
     #
@@ -76,10 +82,10 @@ module GetResponse
     # method::  String
     #
     # params::  Hash
-    def send_request(method, params = {})
+    def send_request(method, params = { })
       request_params = {
-        :method => method,
-        :params => [@api_key, params]
+          :method => method,
+          :params => [@api_key, params]
       }.to_json
 
       uri = URI.parse(API_URI)
@@ -107,7 +113,7 @@ module GetResponse
 
 
     def build_conditions(conditions)
-      conditions.inject({}) do |hash, cond|
+      conditions.inject({ }) do |hash, cond|
         if cond[0].respond_to?(:evaluate)
           hash.merge!(cond[0].evaluate(cond[1]))
         else
