@@ -1,6 +1,6 @@
 module GetResponse
 
-  class SegmentsProxy
+  class SegmentProxy
 
     def initialize(connection)
       @connection = connection
@@ -8,7 +8,7 @@ module GetResponse
 
     # Fetch all segments connected with account
     #
-    # returns:: [Segments]
+    # returns:: [Segment]
     def all
       segments_attrs = @connection.send_request('get_segments')['result']
       segments_attrs.map do |id, attrs|

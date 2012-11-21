@@ -50,7 +50,7 @@ module GetResponse
     #
     # returns:: GetResponse::SegmentProxy
     def segments
-      @segments_proxy ||= GetResponse::SegmentsProxy.new(self)
+      @segment_proxy ||= GetResponse::SegmentProxy.new(self)
     end
 
     # Method returns proxy to execute all message related operations.
