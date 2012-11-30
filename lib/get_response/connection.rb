@@ -4,12 +4,13 @@ module GetResponse
 
   # Simple class that simulates connection to service
   class Connection
-    API_URI = "http://api2.getresponse.com"
+    DEFAULT_API_URI = "http://api2.getresponse.com"
 
     attr_reader :api_key
 
-    def initialize(api_key)
+    def initialize(api_key, api_url = nil)
       @api_key = api_key
+      @api_url = api_url || DEFAULT_API_URI
     end
 
 
@@ -88,7 +89,7 @@ module GetResponse
           :params => [@api_key, params]
       }.to_json
 
-      uri = URI.parse(API_URI)
+      uri = URI.parse(@api_url)
       resp = Net::HTTP.start(uri.host, uri.port) do |conn|
         conn.post("/", request_params)
       end
