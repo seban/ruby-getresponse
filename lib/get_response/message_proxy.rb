@@ -18,13 +18,18 @@ module GetResponse
     #
     # conditions::  Hash, empty by default
     # returns:: Array of GetResponse::Message
-    def all(conditions = {})
+    def all(conditions = { })
       response = @connection.send_request("get_messages", conditions)
 
       response["result"].inject([]) do |messages, resp|
         messages << message_ancestor_object(resp)
         # messages << Message.new(resp[1].merge("id" => resp[0]), @connection)
       end
+    end
+
+    def send_newsletter(options)
+      response = @connection.send_request('send_newsletter', options)
+      Message.new({ 'id' => response['result']['MESSAGE_ID'] }, @connection)
     end
 
 

@@ -4,12 +4,13 @@ module GetResponse
 
   # Simple class that simulates connection to service
   class Connection
-    API_URI = "http://api2.getresponse.com"
+    DEFAULT_API_URI = "http://api2.getresponse.com"
 
     attr_reader :api_key
 
-    def initialize(api_key)
+    def initialize(api_key, api_url = nil)
       @api_key = api_key
+      @api_url = api_url || DEFAULT_API_URI
     end
 
 
@@ -46,6 +47,12 @@ module GetResponse
       @contact_proxy ||= GetResponse::ContactProxy.new(self)
     end
 
+    # Method returns proxy to execute all segment related operations.
+    #
+    # returns:: GetResponse::SegmentProxy
+    def segments
+      @segment_proxy ||= GetResponse::SegmentProxy.new(self)
+    end
 
     # Method returns proxy to execute all message related operations.
     #
@@ -76,15 +83,18 @@ module GetResponse
     # method::  String
     #
     # params::  Hash
-    def send_request(method, params = {})
+    def send_request(method, params = { })
       request_params = {
-        :method => method,
-        :params => [@api_key, params]
+          jsonrpc: '2.0',
+          method: method,
+          params: [@api_key, params],
+          id: Time.now.to_i.to_s
       }.to_json
 
-      uri = URI.parse(API_URI)
+      uri = URI.parse(@api_url)
+      path = ('' == uri.path) ? '/' : uri.path
       resp = Net::HTTP.start(uri.host, uri.port) do |conn|
-        conn.post("/", request_params)
+        conn.post(path, request_params)
       end
       raise GetResponseError.new("API key verification failed") if resp.code.to_i == 403
       response = JSON.parse(resp.body)
@@ -107,7 +117,7 @@ module GetResponse
 
 
     def build_conditions(conditions)
-      conditions.inject({}) do |hash, cond|
+      conditions.inject({ }) do |hash, cond|
         if cond[0].respond_to?(:evaluate)
           hash.merge!(cond[0].evaluate(cond[1]))
         else
