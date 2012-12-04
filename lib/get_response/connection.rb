@@ -85,8 +85,10 @@ module GetResponse
     # params::  Hash
     def send_request(method, params = { })
       request_params = {
-          :method => method,
-          :params => [@api_key, params]
+          jsonrpc: '2.0',
+          method: method,
+          params: [@api_key, params],
+          id: Time.now.to_i.to_s
       }.to_json
 
       uri = URI.parse(@api_url)
