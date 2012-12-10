@@ -10,6 +10,8 @@ module GetResponse
 
     def initialize(api_key)
       @api_key = api_key
+      @request_id_prefix = "#{Time.now.to_i}-#{rand(1_000_000_000)}"
+      @request_number = -1
     end
 
 
@@ -78,6 +80,7 @@ module GetResponse
     # params::  Hash
     def send_request(method, params = {})
       request_params = {
+        :id => request_id,
         :method => method,
         :params => [@api_key, params]
       }.to_json
@@ -87,6 +90,7 @@ module GetResponse
         conn.post("/", request_params)
       end
       raise GetResponseError.new("API key verification failed") if resp.code.to_i == 403
+      raise GetResponseError.new("204 No content response received which signifies interpreting request as notification") if resp.code.to_i == 204
       response = JSON.parse(resp.body)
       if response["error"]
         raise GetResponse::GetResponseError.new(response["error"])
@@ -119,6 +123,11 @@ module GetResponse
         end
         hash
       end
+    end
+
+    def request_id
+      @request_number += 1
+      return [@request_id_prefix, @request_number].join("-")
     end
 
   end
