@@ -39,6 +39,14 @@ class GetResponse::FollowUpTest < Test::Unit::TestCase
   end
 
 
+  def test_save
+    mock(@connection).send_request(:add_follow_up).once { add_follow_up_response }
+    result = new_follow_up.save
+
+    assert_equal true, result
+  end
+
+
   protected
 
 

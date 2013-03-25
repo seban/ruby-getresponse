@@ -332,5 +332,9 @@ class Test::Unit::TestCase
     }
   end
 
+  def add_follow_up_response
+    { "MESSAGE_ID" => "123456", "added" => 1 }
+  end
+
 end
 

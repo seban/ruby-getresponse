@@ -202,6 +202,19 @@ class GetResponse::CampaignTest < Test::Unit::TestCase
   end
 
 
+  def test_create_follow_up
+    follow_up_attributes = {
+      "subject" => "My test follow up",
+      "contents" => { "plain" => "Plain follow-up content" },
+      "day_of_cycle" => 1024
+    }
+    mock(@gr_connection).send_request(:add_follow_up) { add_follow_up_response }
+    result = @campaign.create_follow_up(follow_up_attributes)
+
+    assert_instance_of GetResponse::FollowUp, result
+  end
+
+
   protected
 
 

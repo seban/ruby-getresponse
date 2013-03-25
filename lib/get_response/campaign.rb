@@ -198,6 +198,14 @@ module GetResponse
       GetResponse::Blacklist.new(entries, @connection, self)
     end
 
+
+    def create_follow_up(follow_up_attributes)
+      follow_up_attributes.merge!("campaign" => @id)
+      GetResponse::FollowUp.new(follow_up_attributes, @connection).tap do |follow_up|
+        follow_up.save
+      end
+    end
+
   end
 
 end
