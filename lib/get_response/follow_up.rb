@@ -25,7 +25,13 @@ module GetResponse
     # Save follow-up message. When object can't be saved <tt>GetResponseError</tt> is raised,
     # otherwise returns <tt>true</tt>.
     def save
-      result = @connection.send_request(:add_follow_up)
+      params = {
+        campaign: @campaign_id,
+        subject: @subject,
+        contents: @contents,
+        day_of_cycle: @day_of_cycle
+      }
+      result = @connection.send_request(:add_follow_up, params)
       result["added"] == 1
     end
 

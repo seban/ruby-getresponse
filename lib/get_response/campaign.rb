@@ -200,7 +200,7 @@ module GetResponse
 
 
     def create_follow_up(follow_up_attributes)
-      follow_up_attributes.merge!("campaign" => @id)
+      follow_up_attributes.merge!("campaign_id" => @id)
       GetResponse::FollowUp.new(follow_up_attributes, @connection).tap do |follow_up|
         follow_up.save
       end
