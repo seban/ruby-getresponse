@@ -12,6 +12,8 @@ module GetResponse
       @flags = params["flags"] || []
       @created_on = params["created_on"]
       @connection = connection
+      @campaign_id = params["campaign_id"]
+      @contents = params["contents"]
     end
 
 

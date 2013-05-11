@@ -4,7 +4,7 @@ module GetResponse
 
   # Simple class that simulates connection to service
   class Connection
-    API_URI = "http://api2.getresponse.com"
+    API_URI = "http://api2.getresponse.com/"
 
     attr_reader :api_key
 
@@ -87,7 +87,7 @@ module GetResponse
 
       uri = URI.parse(API_URI)
       resp = Net::HTTP.start(uri.host, uri.port) do |conn|
-        conn.post("/", request_params)
+        conn.post(uri.path, request_params)
       end
       raise GetResponseError.new("API key verification failed") if resp.code.to_i == 403
       raise GetResponseError.new("204 No content response received which signifies interpreting request as notification") if resp.code.to_i == 204

@@ -21,6 +21,20 @@ module GetResponse
       @day_of_cycle = value.to_i if response["updated"].to_i == 1
     end
 
+
+    # Save follow-up message. When object can't be saved <tt>GetResponseError</tt> is raised,
+    # otherwise returns <tt>true</tt>.
+    def save
+      params = {
+        campaign: @campaign_id,
+        subject: @subject,
+        contents: @contents,
+        day_of_cycle: @day_of_cycle
+      }
+      result = @connection.send_request(:add_follow_up, params)
+      result["added"] == 1
+    end
+
   end
 
 end
