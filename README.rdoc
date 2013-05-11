@@ -4,6 +4,10 @@ Wrapper for GetResponse API.
 Class interfaces from version 0.2 has changed breaking backward compatibility.
 Be sure to check changes before update.
 
+== Compatibility issue
+
+Next release (0.6) of getresponse gem will not be compatible with Ruby 1.8.
+
 == Usage
 
 Just add to you Gemfile
