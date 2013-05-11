@@ -20,7 +20,7 @@ module GetResponse
 
     # Get all contacts assigned to this campaign.
     #
-    # returns:: [GetResponse::Contact]
+    # @return [GetResponse::Contact]
     def contacts
       @contact_proxy = ContactProxy.new(@connection)
       @contact_proxy.all(:campaigns => [@id])
@@ -38,7 +38,7 @@ module GetResponse
 
     # Get domain assigned to this campaign.
     #
-    # returns:: GetResponse::Domain
+    # @return [GetResponse::Domain]
     def domain
       params = {"campaign" => self.id}
       domain = @connection.send_request("get_campaign_domain", params)["result"].map do |id, attrs|
@@ -50,8 +50,8 @@ module GetResponse
 
     # Set domain for this campaign.
     #
-    # new_domain:: GetResponse::Domain
-    # returns:: GetResponse::Domain
+    # @param [GetResponse::Domain] new_domain
+    # @return [GetResponse::Domain]
     def domain=(new_domain)
       params = { "domain" => new_domain.id, "campaign" => self.id }
 
@@ -199,6 +199,21 @@ module GetResponse
     end
 
 
+    # Create follow up message in campaign.
+    #
+    # Example:
+    #
+    #   @campaing.create_follow_up({
+    #     "subject" => "My new followup",
+    #     "day_of_cycle" => 1024,
+    #     "contents" => {
+    #       "plain" => "Hello, it is my follow up!",
+    #       "html" => "<b>Hello</b>, it is my follow up!"
+    #     }
+    #   })
+    #
+    # @param follow_up_attributes [Hash]
+    # @return [GetResponse::FollowUp]
     def create_follow_up(follow_up_attributes)
       follow_up_attributes.merge!("campaign_id" => @id)
       GetResponse::FollowUp.new(follow_up_attributes, @connection).tap do |follow_up|

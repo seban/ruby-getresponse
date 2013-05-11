@@ -59,7 +59,6 @@ Move contact between campaigns:
   # zXy - existing campaign
   contact.move("zXy")
 
-
 Get geoip location
 
   # with connection
@@ -205,3 +204,14 @@ Fetching blacklisted addresses for account
 Fetching blacklisted addresses for campaign
 
   campaign.blacklist
+
+Creating follow up message:
+
+  campaign.create_follow_up({
+    "subject" => "My new followup",
+    "day_of_cycle" => 1024,
+    "contents" => {
+      "plain" => "Hello, it is my follow up!",
+      "html" => "<b>Hello</b>, it is my follow up!"
+    }
+  })
