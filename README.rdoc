@@ -14,6 +14,11 @@ Just add to you Gemfile
 
   gem "getresponse", :require => "get_response"
 
+GetResponse offers three API end point according which type of client you are. Standard retail
+clients (getresponse.com etc.) should use GetResponse::Connection class to communicate with API. If
+you are client of getresponse360.com class GetResponse::DedicatedUsConnection will suit for you.
+Client of polish getresponse360.pl should use GetResponse::DedicatedPlConnection.
+
 Test connection to GetResponse API.
 
   gr_connection = GetResponse::Connection.new("my_secret_api")
