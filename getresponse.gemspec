@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.email         = "sebastian.nowak@implix.com"
   s.homepage      = "http://dev.getresponse.com"
   s.summary       = "Ruby wrapper for GetResponse API"
-  s.description   = "With this gem you can manage your subscribers, campaigns, messages"
-  s.version       = "0.5"
+  s.description   = "With this gem you can manage your subscribers, campaigns, messages etc."
+  s.version       = "0.6"
 
   s.add_dependency "json", "~> 1.4"
   s.add_dependency "json_pure", "~>1.4"
