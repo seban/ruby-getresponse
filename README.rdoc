@@ -1,9 +1,10 @@
 == GetResponse
 
-[![Build Status](https://travis-ci.org/seban/ruby-getresponse.png?branch=master)](https://travis-ci.org/seban/ruby-getresponse)
-[![Code Climate](https://codeclimate.com/github/seban/ruby-getresponse.png)](https://codeclimate.com/github/seban/ruby-getresponse)
-[![Gem Version](https://badge.fury.io/rb/getresponse.png)](http://badge.fury.io/rb/getresponse)
-[![Dependency Status](https://gemnasium.com/seban/ruby-getresponse.png)](https://gemnasium.com/seban/ruby-getresponse)
+{<img src="https://travis-ci.org/seban/ruby-getresponse.png?branch=master" alt="Build Status" />}[https://travis-ci.org/seban/ruby-getresponse]
+{<img src="https://codeclimate.com/github/seban/ruby-getresponse.png" />}[https://codeclimate.com/github/seban/ruby-getresponse]
+{<img src="https://badge.fury.io/rb/getresponse.png" alt="Gem Version" />}[http://badge.fury.io/rb/getresponse]
+{<img src="https://gemnasium.com/seban/ruby-getresponse.png" alt="Dependency Status" />}[https://gemnasium.com/seban/ruby-getresponse]
+
 
 Wrapper for GetResponse API.
 Class interfaces from version 0.2 has changed breaking backward compatibility.
