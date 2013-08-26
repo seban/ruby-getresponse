@@ -31,7 +31,7 @@ class GetResponse::MessageProxyTest < Test::Unit::TestCase
     messages = @message_proxy.all(:type => "newsletter")
 
     assert_kind_of Array, messages
-    assert_equal true, messages.all? { |msg| msg.kind_of? GetResponse::Message }
+    assert_equal true, messages.all? { |msg| msg.instance_of? GetResponse::Newsletter }
     assert_equal true, messages.all? { |msg| msg.type == "newsletter" }
   end
 

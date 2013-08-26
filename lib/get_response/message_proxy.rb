@@ -35,7 +35,7 @@ module GetResponse
       case response[1]["type"]
         when "newsletter"
           Newsletter.new(response[1].merge("id" => response[0]), @connection)
-        when "follow-up"
+        when "follow-up", "autoresponder"
           FollowUp.new(response[1].merge("id" => response[0]), @connection)
       end
     end

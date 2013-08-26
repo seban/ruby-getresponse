@@ -115,6 +115,14 @@ class Test::Unit::TestCase
           "created_on" => "2010-10-24 03:22:08",
           "type" => "newsletter",
           "send_on" => "2010-10-24 03:22:08"
+        },
+        "ZGVf" => {
+          "flags" => ["clicktrack"],
+          "campaign" => "N3i",
+          "subject" => "Wysyłka 2",
+          "created_on" => "2010-10-24 03:22:08",
+          "type" => "newsletter",
+          "send_on" => "2010-10-24 03:22:08"
         }
       }
     }.to_json
