@@ -2,6 +2,8 @@ module GetResponse
 
   class Newsletter < Message
 
+    attr_accessor :send_on
+
     # Delete newsletter. You can delete only newsletters that have send_on date in future. If you try
     # to delete exception will be raised.
     def destroy
@@ -12,4 +14,3 @@ module GetResponse
   end
 
 end
-

@@ -14,6 +14,7 @@ module GetResponse
       @connection = connection
       @campaign_id = params["campaign_id"]
       @contents = params["contents"]
+      @send_on = params["send_on"]
     end
 
 
