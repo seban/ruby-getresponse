@@ -18,10 +18,10 @@ module GetResponse
       end
     end
 
-
+    
     # Get campaign by id
     #
-    # returns:: instance of Getresponse::Campaign
+    # returns:: Array of Getresponse::Campaign
     #
     def by_id(campaign_id)
       response = @connection.send_request('get_campaign',
@@ -52,24 +52,6 @@ module GetResponse
         attrs = response['result'].values.first.merge('id' => response['result'].keys.pop)
         Campaign.new(attrs, @connection)
       end
-    end
-
-
-    def campaign_by_id(campaign_id)
-    end
-
-    def campaign_by_name(campaign_name)
-      response = @connection.send_request('get_campaigns', 
-                                          { name: { 'EQUALS' => campaign_name } }
-                                         )
-      result = response['result']
-      puts " --------- "
-      pp response
-      puts " --------- "
-      pp result
-
-      response
-
     end
 
 
