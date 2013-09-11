@@ -2,7 +2,6 @@ require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper'))
 
 class GetResponse::ConnectionTest < Test::Unit::TestCase
 
-  include RR::Adapters::TestUnit
 
   def setup
     @gr_connection = GetResponse::Connection.new("my_secret_api_key")

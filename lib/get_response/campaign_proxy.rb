@@ -12,9 +12,45 @@ module GetResponse
     #
     # returns:: Array of GetResponse::Campaign
     def all
-      response = @connection.send_request("get_campaigns", {})["result"]
-      response.inject([]) do |campaigns, resp|
-        campaigns << Campaign.new(resp[1].merge("id" => resp[0]), @connection)
+      response = @connection.send_request('get_campaigns', {})['result']
+      response.inject([]) do |campaigns, (key,value)|
+        campaigns << Campaign.new(value.merge('id' => key), @connection)
+      end
+    end
+
+
+    # Get campaign by id
+    #
+    # returns:: Array of Getresponse::Campaign
+    #
+    def by_id(campaign_id)
+      response = @connection.send_request('get_campaign',
+                                          { 'campaign' => campaign_id }
+                                         ) 
+
+      if response['result'].empty?
+        raise GRNotFound.new("Campaign not found: #{campaign_id}")
+      else
+        attrs = response['result'].values.first.merge('id' => response['result'].keys.pop)
+        Campaign.new(attrs, @connection)
+      end
+    end
+
+    # Get campaign by name
+    # getresponse API states:
+    # "There can be only one campaign of a given name" 
+    #
+    # returns:: instance of Getresponse::Campaign
+    #
+    def by_name(campaign_name)
+      response = @connection.send_request('get_campaigns', 
+                                          { 'name' =>  { 'EQUALS' => campaign_name } }
+                                         )
+      if response['result'].empty?
+        raise GRNotFound.new("Campaign not found: #{campaign_name}")
+      else
+        attrs = response['result'].values.first.merge('id' => response['result'].keys.pop)
+        Campaign.new(attrs, @connection)
       end
     end
 

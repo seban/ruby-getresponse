@@ -43,6 +43,39 @@ class GetResponse::CampaignProxyTest < Test::Unit::TestCase
     assert_not_nil result.id
   end
 
+  def test_by_name
+    request_params = { 'name' => { 'EQUALS' => 'my_campaign_1' } }
+    mock(@connection).send_request('get_campaigns', request_params) { campaign_found_response }
+    result = @proxy.by_name('my_campaign_1')
+    assert_kind_of GetResponse::Campaign, result
+    assert result.name == 'my_campaign_1'
+  end
+
+
+  def test_by_id
+    request_params = { 'campaign' => 'CAMPAIGN_ID'}
+    mock(@connection).send_request('get_campaign', request_params) { campaign_found_response }
+    result = @proxy.by_id('CAMPAIGN_ID')
+    assert_kind_of GetResponse::Campaign, result
+    assert result.id == 'CAMPAIGN_ID'
+    assert result.name == 'my_campaign_1'
+  end
+
+  def test_by_id_raise
+    request_params = { 'campaign' => 'NIL_CAMPAIGN_ID'}
+    mock(@connection).send_request('get_campaign', request_params) { campaign_not_found_response }
+    assert_raise GetResponse::GRNotFound do
+      result = @proxy.by_id('NIL_CAMPAIGN_ID')
+    end 
+  end
+
+  def test_by_name_raise
+    request_params = { 'name' => { 'EQUALS' => 'NIL_CAMPAIGN_NAME' } }
+    mock(@connection).send_request('get_campaigns', request_params) { campaign_not_found_response }
+    assert_raise GetResponse::GRNotFound do
+      result = @proxy.by_name('NIL_CAMPAIGN_NAME')
+    end
+  end
 
   protected
 
@@ -54,6 +87,29 @@ class GetResponse::CampaignProxyTest < Test::Unit::TestCase
         "added" => 1
       },
       "errors" => nil
+    }
+  end
+
+  def campaign_found_response
+    {
+      'result' => {
+        "CAMPAIGN_ID" => {
+          "name" => "my_campaign_1",
+          "description" => "My campaign",
+          "optin" => "single",
+          "from_name" => "My From Name",
+          "from_email" => "me@emailaddress.com",
+          "reply_to_email" => "replies@emailaddress.com",
+          "created_on" => "2010-01-01 00:00:00"
+          }
+        }
+      }
+
+  end
+
+  def campaign_not_found_response
+    {
+    'result' => {} 
     }
   end
 end

@@ -5,6 +5,7 @@ module GetResponse
 end
 
 GetResponse.autoload :GetResponseError, "get_response/get_response_error"
+GetResponse.autoload :GRNotFound, "get_response/get_response_error"
 GetResponse.autoload :Account, "get_response/account"
 GetResponse.autoload :Campaign, "get_response/campaign"
 GetResponse.autoload :Connection, "get_response/connection"
