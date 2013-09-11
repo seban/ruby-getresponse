@@ -55,6 +55,19 @@ module GetResponse
     end
 
 
+    def campaign_by_id(campaign_id)
+    end
+
+    def campaign_by_name(campaign_name)
+      response = @connection.send_request('get_campaigns', 
+                                          { name: { 'EQUALS' => campaign_name } }
+                                         )
+      result = response['result']
+      puts response.inspect
+      puts result.inspect
+    end
+
+
     # Create new campaign from passed attributes
     #
     # @param attrs [Hash]
