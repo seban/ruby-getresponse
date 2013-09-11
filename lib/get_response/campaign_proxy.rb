@@ -67,6 +67,9 @@ module GetResponse
       pp response
       puts " --------- "
       pp result
+
+      response
+
     end
 
 
