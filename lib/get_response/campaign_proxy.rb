@@ -63,8 +63,10 @@ module GetResponse
                                           { name: { 'EQUALS' => campaign_name } }
                                          )
       result = response['result']
-      puts response.inspect
-      puts result.inspect
+      puts " --------- "
+      pp response
+      puts " --------- "
+      pp result
     end
 
 
