@@ -21,7 +21,7 @@ module GetResponse
 
     # Get campaign by id
     #
-    # returns:: Array of Getresponse::Campaign
+    # returns:: instance of Getresponse::Campaign
     #
     def by_id(campaign_id)
       response = @connection.send_request('get_campaign',

@@ -38,6 +38,14 @@ Get your active campaigns.
 
   gr_connection.campaigns.all
 
+Get a specific campaign by name.
+
+  gr_connection.campaigns.by_name('my_campaign_1')
+
+Get a specific campaign by id.
+
+  gr_connection.campaigns.by_id('MY_CAMPAIGN_ID')
+
 You can operate on your contacts quite the same way as on ActiveRecord objects. Before any operation
 on contacts you must connect to API.
 
