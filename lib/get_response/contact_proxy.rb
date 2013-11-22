@@ -22,6 +22,22 @@ module GetResponse
       build_contacts(response["result"])
     end
 
+    # Get contact by name
+    #
+    # returns:: instance of Getresponse::Contact
+    #
+    def by_email(email_address)
+      response = @connection.send_request('get_contacts', 
+                                          { 'email' =>  { 'EQUALS' => email_address } }
+                                         )
+      if response['result'].empty?
+        raise GRNotFound.new("Contact not found: #{email_address}")
+      else
+        attrs = response['result'].values.first.merge('id' => response['result'].keys.pop)
+        Contact.new(attrs, @connection)
+      end
+    end
+
 
     # Create new contact. Method can raise <tt>GetResponseError</tt>.
     #
