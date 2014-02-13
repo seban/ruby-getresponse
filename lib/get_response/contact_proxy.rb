@@ -23,12 +23,14 @@ module GetResponse
     end
 
     # Get contact by name
+    # optional limit query to given campaign_id
     #
     # returns:: instance of Getresponse::Contact
+    # raises GRNotFound if empty result returned
     #
-    def by_email(email_address)
+    def by_email(email_address, campaign_id=nil)
       response = @connection.send_request('get_contacts', 
-                                          { 'email' =>  { 'EQUALS' => email_address } }
+                                          build_email_campaign_options(email_address, campaign_id)
                                          )
       if response['result'].empty?
         raise GRNotFound.new("Contact not found: #{email_address}")
@@ -93,6 +95,16 @@ module GetResponse
 
     private
 
+    def build_email_campaign_options(email, campaign_id=nil)
+      email_hash = { 'email' => { 'EQUALS' => email} }
+      ret = if campaign_id
+              { 'campaigns' => [campaign_id] }.merge(email_hash) 
+            else
+              email_hash
+            end
+      return ret
+    end
+    
     # Build collection of <tt>Contact</tt> objects from service response.
     #
     # @param raw_contacts [Array] of Hashes parsed from GetResponse API response

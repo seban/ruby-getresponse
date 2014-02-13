@@ -119,4 +119,56 @@ class GetResponse::ContactProxyTest < Test::Unit::TestCase
     assert deleted_contacts.all? { |contact| !contact.deleted_on.nil? }
   end
 
+  def test_by_email_no_campaign
+    request_params = { 'email' => { 'EQUALS' => 'nobody@example.com'} }
+    mock(@connection).send_request('get_contacts', request_params ) { contact_found_response }
+    result = @proxy.by_email('nobody@example.com')
+    assert_kind_of GetResponse::Contact, result
+    assert result.email == 'nobody@example.com'
+    assert result.name == 'No Body'
+  end
+
+  def test_by_email_and_campaign
+    request_params = { 'campaigns' => ['CAMPAIGN_ID'], 'email' => { 'EQUALS' => 'nobody@example.com'} }
+    mock(@connection).send_request('get_contacts', request_params ) { contact_found_response }
+    result = @proxy.by_email('nobody@example.com', 'CAMPAIGN_ID')
+    assert_kind_of GetResponse::Contact, result
+    assert result.email == 'nobody@example.com'
+    assert result.name == 'No Body'
+    assert result.campaign == 'CAMPAIGN_ID'
+  end
+
+  def test_by_email_raise
+    request_params = { 'email' => { 'EQUALS' => 'not_existent@example.com' } }
+    mock(@connection).send_request('get_contacts', request_params ) { contact_not_found_response }
+    assert_raise GetResponse::GRNotFound do
+      result = @proxy.by_email('not_existent@example.com')
+    end
+  end
+
+  protected
+  
+  def contact_found_response
+    {
+      'result' => {
+        "CONTACT_ID" => {
+          "campaign" => "CAMPAIGN_ID",
+          "name" => "No Body",
+          "email" => "nobody@example.com",
+          "origin" => "www",
+          "ip" => "1.1.1.1",
+          "cycle_day" => 32,
+          "changed_on" => nil, 
+          "created_on" => "2010-01-01 00:00:00"
+        }
+      }
+    }
+  end
+
+  def contact_not_found_response
+    {
+      'result' => {}
+    }
+  end
+
 end
