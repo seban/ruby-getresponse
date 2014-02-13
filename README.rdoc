@@ -59,10 +59,10 @@ Create new contact:
   gr_connection.contacts.create("name" => "John Doe", "email" => "john.d@somewhere.com",
     "campaign" => "campaignId", "customs" => { "source" => "mainpage" })
 
-Get contact by email:
+Get contact by email [and optional campaign_id]:
 
   # with connection
-  contact = gr_connection.contacts.by_email("john.d@somewhere.com")
+  contact = gr_connection.contacts.by_email("john.d@somewhere.com", campaign_id=nil)
 
 Update your contact:
 
