@@ -136,6 +136,14 @@ module GetResponse
       @connection.send_request("get_contact_opens", param)["result"]
     end
 
+    # List dates when links were clicked by contact. If a contact clicked the same link multiple
+    # times, only the newest date is listed.
+    # returns:: Hash
+    def clicks
+      param = {"contact" => @id}
+      @connection.send_request("get_contact_clicks", param)["result"]
+    end
+
 
     # Set contact name. Method can raise <tt>GetResponseError</tt> exception.
     #
