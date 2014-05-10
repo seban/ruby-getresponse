@@ -159,6 +159,15 @@ class ContactTest < Test::Unit::TestCase
     assert_equal 2, resp.keys.size
   end
 
+  def test_clicks
+    mock(@mocked_response).body { contact_clicks_response }
+    contact = new_contact
+    resp = contact.clicks
+
+    assert_kind_of Hash, resp
+    assert_equal 3, resp.keys.size
+  end
+
 
   def test_set_name_exception
     mock(@mocked_response).body { set_contact_name_exception_response }
@@ -277,6 +286,17 @@ class ContactTest < Test::Unit::TestCase
         "message_id_2" => (Time.now - (2 * 24 * 60 * 60)).to_s
       },
       "error" => nil
+    }.to_json
+  end
+
+  def contact_clicks_response
+    {
+        "result" => {
+            "link_id_1" => (Time.now - (1 * 24 * 60 * 60)).to_s,
+            "link_id_2" => (Time.now - (2 * 24 * 60 * 60)).to_s,
+            "link_id_3" => (Time.now - (2 * 24 * 60 * 60)).to_s
+        },
+        "error" => nil
     }.to_json
   end
 
