@@ -125,6 +125,7 @@ module GetResponse
     # returns:: Hash
     def customs=(value)
       @customs = parse_customs(value)
+      @connection.send_request("set_contact_customs", { "contact" => @id, "customs" => @customs })["result"]
     end
 
 
